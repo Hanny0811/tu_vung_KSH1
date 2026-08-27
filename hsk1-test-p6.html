@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK1 · Mini Test Phần 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper: #F2ECDD; --kraft: #D9C7A0; --kraft-dark: #C7B285; --ink: #1E3348;
+    --rope: #8B6F47; --stamp-red: #B23A2E; --stamp-green: #3F6E4E; --white: #FBF8F1;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);background-image:radial-gradient(circle at 1px 1px, rgba(30,51,72,0.06) 1px, transparent 0);background-size:22px 22px;font-family:'Libre Franklin', sans-serif;color:var(--ink);min-height:100vh;padding:28px 16px 60px;}
+  .wrap{max-width:640px;margin:0 auto;}
+  header{text-align:center;margin-bottom:16px;}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--rope);text-transform:uppercase;}
+  h1{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:26px;margin:4px 0 2px;}
+  .sub{font-size:13px;color:#5a5044;}
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:18px;}
+  .navchip{font-family:'Space Mono',monospace;font-size:11px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:20px;padding:5px 10px;text-decoration:none;color:var(--ink);}
+  .navchip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .ruby-line{font-family:'Noto Sans SC',sans-serif;line-height:2.6;}
+  .ruby-line ruby{margin:0 1px;}
+  .ruby-line rt{font-family:'Libre Franklin',sans-serif;font-size:0.42em;color:var(--rope);font-weight:600;}
+  .stats{display:flex;justify-content:center;gap:18px;font-family:'Space Mono',monospace;font-size:12px;margin:14px 0 22px;color:var(--ink);}
+  .stats b{font-size:15px;}
+  .controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+  button.ctl{font-family:'Space Mono',monospace;font-size:12px;background:var(--white);border:1px solid var(--kraft-dark);color:var(--ink);padding:9px 14px;border-radius:5px;cursor:pointer;letter-spacing:0.5px;}
+  button.ctl:hover{border-color:var(--ink);}
+  button.ctl.primary{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  button.ctl.mark-known{border-color:var(--stamp-green);color:var(--stamp-green);}
+  button.ctl.mark-new{border-color:var(--stamp-red);color:var(--stamp-red);}
+  button.ctl:disabled{opacity:0.4;cursor:not-allowed;}
+  .status-line{text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);margin-bottom:14px;min-height:14px;}
+  .speak-btn{border:none;background:var(--ink);color:var(--white);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 8px rgba(30,51,72,0.3);}
+  .speak-btn:active{transform:scale(0.92);}
+  .speak-row{display:flex;justify-content:center;gap:10px;margin:10px 0;}
+  .toggle-row{display:flex;justify-content:center;align-items:center;gap:6px;font-size:12px;font-family:'Space Mono',monospace;margin-bottom:22px;color:#5a5044;}
+
+  .name-gate{position:fixed;inset:0;background:rgba(30,51,72,0.78);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .name-gate.hidden{display:none;}
+  .name-gate-card{background:var(--white);border-radius:10px;padding:32px 26px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+  .name-gate-card h2{font-family:'Oswald',sans-serif;font-size:19px;margin:8px 0 18px;text-transform:none;letter-spacing:0;}
+  .name-gate-card input{width:100%;padding:11px 14px;border:1.5px solid var(--kraft-dark);border-radius:6px;font-family:'Libre Franklin',sans-serif;font-size:15px;margin-bottom:14px;text-align:center;box-sizing:border-box;}
+  .name-gate-card input:focus{outline:2px solid var(--ink);}
+  .student-greet{text-align:center;font-family:'Space Mono',monospace;font-size:11.5px;color:var(--rope);margin:-6px 0 16px;}
+  .student-greet a{color:var(--ink);text-decoration:underline;cursor:pointer;}
+  .history-panel{max-width:420px;margin:0 auto 16px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:8px;padding:12px 16px;font-size:12.5px;}
+  .history-panel .htitle{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rope);margin-bottom:8px;}
+  .history-panel .hrow{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--paper);}
+  .history-panel .hrow:first-of-type{border-top:none;}
+
+
+  .progress-wrap{max-width:420px;margin:0 auto 6px;}
+  .progress-track{height:6px;background:var(--kraft-dark);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--ink);width:0%;transition:width .3s;}
+  .progress-label{text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);margin:8px 0 20px;}
+  .qcard{max-width:420px;margin:0 auto 18px;background:var(--kraft);border:1px solid rgba(30,51,72,0.25);border-radius:8px;box-shadow:0 10px 24px rgba(30,51,72,0.15);padding:30px 22px;position:relative;text-align:center;}
+  .qcard::before{content:"";position:absolute;top:14px;left:14px;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #f4f0e4, #b9ac86 60%, #8a7b53);box-shadow:inset 0 0 0 2px rgba(30,51,72,0.35), 0 1px 2px rgba(0,0,0,0.3);}
+  .qnum{font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);text-align:right;letter-spacing:1px;}
+  .qhint{font-size:13px;color:#6b6152;margin-bottom:18px;font-family:'Space Mono',monospace;}
+  .speak-row-big{display:flex;justify-content:center;margin-bottom:20px;}
+  .speak-btn-big{border:none;background:var(--ink);color:var(--white);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 8px rgba(30,51,72,0.3);font-size:20px;}
+  .speak-btn-big:active{transform:scale(0.92);}
+  .type-row{display:flex;gap:8px;margin-top:6px;justify-content:center;}
+  .type-input{width:70%;padding:12px 14px;border:1.5px solid var(--kraft-dark);border-radius:6px;font-family:'Libre Franklin',sans-serif;font-size:16px;background:var(--white);color:var(--ink);text-align:center;}
+  .type-input:focus{outline:2px solid var(--ink);outline-offset:1px;}
+  .type-input.correct{border-color:var(--stamp-green);background:#e3ede4;}
+  .type-input.incorrect{border-color:var(--stamp-red);background:#f3dfdb;}
+  .reveal{margin-top:18px;}
+  .reveal .hanzi-ruby{font-size:34px;}
+  .reveal .meaning{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;margin-top:6px;}
+  .reveal .example-cn{font-family:'Noto Sans SC',sans-serif;font-size:14px;color:var(--ink);margin-top:8px;}
+  .reveal .example-vi{font-size:12px;color:#6b6152;font-style:italic;margin-top:2px;}
+  .type-feedback{margin-top:10px;font-size:13px;font-family:'Space Mono',monospace;}
+  .type-feedback.correct{color:var(--stamp-green);}
+  .type-feedback.incorrect{color:var(--stamp-red);}
+  .result{max-width:420px;margin:10px auto 0;text-align:center;background:var(--white);border:1px solid var(--kraft-dark);border-radius:8px;padding:30px 24px;}
+  .result .score{font-family:'Oswald',sans-serif;font-weight:700;font-size:44px;margin:6px 0;}
+  .result .stamp{display:inline-block;font-family:'Oswald',sans-serif;font-weight:700;font-size:15px;letter-spacing:2px;text-transform:uppercase;border:2.5px solid;border-radius:4px;padding:5px 12px;transform:rotate(-6deg);margin-top:10px;}
+  .stamp.pass{color:var(--stamp-green);border-color:var(--stamp-green);}
+  .stamp.retry{color:var(--stamp-red);border-color:var(--stamp-red);}
+  .result-list{text-align:left;margin-top:20px;font-size:13px;}
+  .result-list .ritem{padding:8px 0;border-top:1px solid var(--kraft-dark);display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .ritem .hanzi-ruby{font-size:16px;}
+  .ritem.wrong{color:var(--stamp-red);}
+  .ritem.right{color:var(--stamp-green);}
+  .hidden{display:none;}
+  .note{text-align:center;font-size:11.5px;color:#8a7f6c;font-family:'Space Mono',monospace;margin:-10px 0 18px;}
+
+</style>
+</head>
+<body>
+<div class="name-gate hidden" id="nameGateOverlay">
+  <div class="name-gate-card">
+    <div class="eyebrow">HSK1</div>
+    <h2>Nhập tên của bạn để bắt đầu</h2>
+    <input type="text" id="studentNameInput" placeholder="Tên của bạn...">
+    <button class="ctl primary" id="studentNameBtn" style="width:100%;">Bắt đầu học</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Inspection Deck · HSK1 Listening Test · Phần 6/6</div>
+    <h1>Mini Test — Phần 6</h1>
+    <div class="sub">Ôn 7 từ (151-157) · Nghe rồi gõ pinyin</div>
+  </header>
+
+  <div class="nav-row">
+    <a class="navchip" href="hsk1-p1.html">Từ vựng P1</a>
+    <a class="navchip" href="hsk1-test-p1.html">Test P1</a>
+    <a class="navchip" href="hsk1-p2.html">Từ vựng P2</a>
+    <a class="navchip" href="hsk1-test-p2.html">Test P2</a>
+    <a class="navchip" href="hsk1-p3.html">Từ vựng P3</a>
+    <a class="navchip" href="hsk1-test-p3.html">Test P3</a>
+    <a class="navchip" href="hsk1-p4.html">Từ vựng P4</a>
+    <a class="navchip" href="hsk1-test-p4.html">Test P4</a>
+    <a class="navchip" href="hsk1-p5.html">Từ vựng P5</a>
+    <a class="navchip" href="hsk1-test-p5.html">Test P5</a>
+    <a class="navchip" href="hsk1-p6.html">Từ vựng P6</a>
+    <a class="navchip active" href="hsk1-test-p6.html">Test P6</a>
+  </div>
+  <div class="student-greet" id="studentGreet"></div>
+  <div class="note">Không cần gõ dấu thanh điệu — gõ đúng chữ cái pinyin là được tính đúng.</div>
+
+  <div id="historyPanelWrap"></div>
+
+  <div id="quizArea">
+    <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+    <div class="progress-label" id="progressLabel">Câu 1 / 7</div>
+
+    <div class="qcard">
+      <div class="qnum" id="qnum">Q-01</div>
+      <div class="qhint">Nghe và gõ pinyin của từ này</div>
+      <div class="speak-row-big"><button class="speak-btn-big" id="speakBtn" type="button">▶</button></div>
+      <div class="type-row">
+        <input type="text" id="typeInput" class="type-input" placeholder="vd: xiexie">
+      </div>
+      <div id="revealArea" class="reveal hidden">
+        <div class="hanzi-ruby ruby-line" id="revealHanzi"></div>
+        <div class="meaning" id="revealMeaning"></div>
+        <div class="example-cn" id="revealExample"></div>
+        <div class="example-vi" id="revealExampleVi"></div>
+      </div>
+      <div id="feedback" class="type-feedback"></div>
+    </div>
+
+    <div class="controls">
+      <button class="ctl" id="prevBtn">◀ Câu trước</button>
+      <button class="ctl primary" id="checkBtn">Kiểm tra</button>
+      <button class="ctl primary hidden" id="nextBtn">Câu tiếp ▶</button>
+    </div>
+  </div>
+
+  <div class="result hidden" id="resultArea">
+    <div class="eyebrow">Kết quả</div>
+    <div class="score" id="scoreText">0 / 7</div>
+    <div id="stampArea"></div>
+    <div class="result-list" id="resultList"></div>
+    <div class="controls" style="margin-top:20px;"><button class="ctl primary" id="retryBtn">↻ Làm lại</button></div>
+  </div>
+</div>
+
+<script>
+const POOL = [
+  {word:"中午", pinyin:["zhōng", "wǔ"], pos:"n.", meaning:"buổi trưa", example:"中午我们一起吃饭。", exampleMeaning:"Buổi trưa chúng ta cùng ăn cơm."},
+  {word:"住", pinyin:["zhù"], pos:"v.", meaning:"ở, sống", example:"我住在北京。", exampleMeaning:"Tôi sống ở Bắc Kinh."},
+  {word:"桌子", pinyin:["zhuō", "zi"], pos:"n.", meaning:"cái bàn", example:"这张桌子很大。", exampleMeaning:"Cái bàn này rất to."},
+  {word:"字", pinyin:["zì"], pos:"n.", meaning:"chữ", example:"我在学写字。", exampleMeaning:"Tôi đang học viết chữ."},
+  {word:"昨天", pinyin:["zuó", "tiān"], pos:"n.", meaning:"hôm qua", example:"昨天天气很冷。", exampleMeaning:"Hôm qua trời rất lạnh."},
+  {word:"做", pinyin:["zuò"], pos:"v.", meaning:"làm", example:"你在做什么？", exampleMeaning:"Bạn đang làm gì?"},
+  {word:"坐", pinyin:["zuò"], pos:"v.", meaning:"ngồi", example:"请坐。", exampleMeaning:"Mời ngồi."}
+];
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function rubyHTML(word, pinyinArr){
+  const chars = Array.from(word);
+  return chars.map((ch,i) => `<ruby>${ch}<rt>${pinyinArr[i] || ''}</rt></ruby>`).join('');
+}
+function plainPinyin(pinyinArr){ return pinyinArr.join(' '); }
+
+const TONE_MAP = {
+  'ā':'a','á':'a','ǎ':'a','à':'a','ē':'e','é':'e','ě':'e','è':'e',
+  'ī':'i','í':'i','ǐ':'i','ì':'i','ō':'o','ó':'o','ǒ':'o','ò':'o',
+  'ū':'u','ú':'u','ǔ':'u','ù':'u','ǖ':'v','ǘ':'v','ǚ':'v','ǜ':'v','ü':'v',
+  'ń':'n','ň':'n','ǹ':'n'
+};
+function stripTones(s){ return s.split('').map(ch => TONE_MAP[ch] || ch).join(''); }
+function normalizePinyin(s){ return stripTones((s||'').toLowerCase().trim()).replace(/[^a-z]/g,''); }
+
+const questions = shuffle(POOL);
+let current = 0;
+let answers = new Array(questions.length).fill(null).map(()=>({done:false, userAnswer:'', isCorrect:false}));
+
+const $ = id => document.getElementById(id);
+function setStatus(msg, timeout=2200){ }
+
+function slugName(n){ return n.trim().toLowerCase().replace(/\s+/g,'_'); }
+function getStudentName(){ return localStorage.getItem('hsk1_studentName') || ''; }
+function setStudentName(n){ localStorage.setItem('hsk1_studentName', n); }
+function keyFor(base){
+  const n = getStudentName();
+  return n ? base + '__' + slugName(n) : base;
+}
+function renderGreeting(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const n = getStudentName();
+  el.innerHTML = n ? ('Xin chào, <b>' + n + '</b> · <a id="switchStudentLink">Không phải bạn?</a>') : '';
+  const link = document.getElementById('switchStudentLink');
+  if(link) link.addEventListener('click', () => {
+    localStorage.removeItem('hsk1_studentName');
+    window.location.reload();
+  });
+}
+function ensureStudentGate(onReady){
+  const existing = getStudentName();
+  if(existing){ onReady(existing); return; }
+  const overlay = document.getElementById('nameGateOverlay');
+  overlay.classList.remove('hidden');
+  const btn = document.getElementById('studentNameBtn');
+  const input = document.getElementById('studentNameInput');
+  const submit = () => {
+    const val = input.value.trim();
+    if(!val) return;
+    setStudentName(val);
+    overlay.classList.add('hidden');
+    onReady(val);
+  };
+  btn.addEventListener('click', submit);
+  input.addEventListener('keydown', e => { if(e.key==='Enter') submit(); });
+  setTimeout(()=>input.focus(), 50);
+}
+
+
+const PREFERRED_VOICE_NAME = 'Google 普通话（中国大陆）';
+let zhVoice = null;
+let preferredVoice = null;
+function normVoiceName(s){
+  return (s || '').replace(/\s+/g,'').replace(/[（(]/g,'(').replace(/[）)]/g,')');
+}
+function pickZhVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const voices = window.speechSynthesis.getVoices();
+  const targetNorm = normVoiceName(PREFERRED_VOICE_NAME);
+  preferredVoice =
+    voices.find(v => normVoiceName(v.name) === targetNorm) ||
+    voices.find(v => /普通话/.test(v.name || '') && /中国大陆|中國大陸/.test(v.name || '')) ||
+    null;
+  zhVoice =
+    preferredVoice ||
+    voices.find(v => v.lang === 'zh-CN') ||
+    voices.find(v => v.lang === 'cmn-Hans-CN') ||
+    voices.find(v => v.lang && /zh[-_]?(cn|hans)/i.test(v.lang)) ||
+    voices.find(v => v.lang && v.lang.toLowerCase().startsWith('zh')) ||
+    voices.find(v => /chinese|mandarin|普通话|中文|國語/i.test(v.name || '')) ||
+    null;
+}
+if('speechSynthesis' in window){ pickZhVoice(); window.speechSynthesis.onvoiceschanged = pickZhVoice; }
+
+function speakWithBrowserVoice(text, rate){
+  if(!('speechSynthesis' in window)) return false;
+  if(!zhVoice) pickZhVoice();
+  if(!zhVoice) return false;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = zhVoice;
+  u.lang = zhVoice.lang || 'zh-CN';
+  u.rate = rate;
+  window.speechSynthesis.speak(u);
+  setStatus('Giong: ' + zhVoice.name, 1600);
+  return true;
+}
+function speakWithGoogleTTS(text, rate, onFail){
+  const ttsUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(text) + '&tl=zh-CN&client=tw-ob';
+  let failed = false;
+  const audio = new Audio(ttsUrl);
+  audio.playbackRate = rate;
+  const fail = () => { if(failed) return; failed = true; onFail(); };
+  audio.addEventListener('error', fail);
+  audio.play().then(()=>{ setStatus('Giong: Google Translate TTS (online)', 1600); }).catch(fail);
+}
+function speak(text, slow){
+  const rate = slow ? 0.6 : 0.95;
+  if(!zhVoice) pickZhVoice();
+  if(preferredVoice){ speakWithBrowserVoice(text, rate); return; }
+  speakWithGoogleTTS(text, rate, () => {
+    const ok = speakWithBrowserVoice(text, rate);
+    if(!ok) setStatus('Khong the phat am: khong co mang va may khong co giong tieng Trung.');
+  });
+}
+
+
+function loadHistory(){
+  try{
+    const raw = localStorage.getItem(keyFor('hsk1testhistory_p6'));
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function saveHistoryEntry(score, total){
+  try{
+    const hist = loadHistory();
+    hist.push({date: new Date().toLocaleString('vi-VN'), score, total});
+    while(hist.length > 5) hist.shift();
+    localStorage.setItem(keyFor('hsk1testhistory_p6'), JSON.stringify(hist));
+  }catch(e){}
+}
+function renderHistoryPanel(){
+  const hist = loadHistory();
+  const wrap = $('historyPanelWrap');
+  if(!hist.length){ wrap.innerHTML=''; return; }
+  const rows = hist.slice().reverse().map(h => `<div class="hrow"><span>${h.date}</span><span>${h.score} / ${h.total}</span></div>`).join('');
+  wrap.innerHTML = `<div class="history-panel"><div class="htitle">Lịch sử làm bài gần đây</div>${rows}</div>`;
+}
+
+function renderQuestion(){
+  const q = questions[current];
+  const a = answers[current];
+  $('qnum').textContent = 'Q-' + String(current+1).padStart(2,'0');
+  $('progressLabel').textContent = `Câu ${current+1} / ${questions.length}`;
+  $('progressFill').style.width = (current/questions.length*100) + '%';
+
+  $('typeInput').value = a.userAnswer || '';
+  $('typeInput').disabled = a.done;
+  $('typeInput').className = 'type-input' + (a.done ? (a.isCorrect ? ' correct':' incorrect') : '');
+
+  $('revealArea').classList.toggle('hidden', !a.done);
+  if(a.done){
+    $('revealHanzi').innerHTML = rubyHTML(q.word, q.pinyin);
+    $('revealMeaning').textContent = q.pos + '  ·  ' + q.meaning;
+    $('revealExample').textContent = q.example || '';
+    $('revealExampleVi').textContent = q.exampleMeaning || '';
+    $('feedback').textContent = a.isCorrect ? 'Chính xác!' : `Đáp án đúng: ${plainPinyin(q.pinyin)}`;
+    $('feedback').className = 'type-feedback ' + (a.isCorrect ? 'correct':'incorrect');
+  } else {
+    $('feedback').textContent = '';
+    $('feedback').className = 'type-feedback';
+  }
+
+  $('checkBtn').classList.toggle('hidden', a.done);
+  $('nextBtn').classList.toggle('hidden', !a.done);
+  $('nextBtn').textContent = current === questions.length - 1 ? 'Nộp bài ✓' : 'Câu tiếp ▶';
+  $('prevBtn').disabled = current === 0;
+
+  if(!a.done) setTimeout(()=>$('typeInput').focus(), 30);
+}
+
+function checkAnswer(){
+  const q = questions[current];
+  const a = answers[current];
+  if(a.done) return;
+  const val = $('typeInput').value;
+  a.userAnswer = val;
+  a.isCorrect = normalizePinyin(val) === normalizePinyin(plainPinyin(q.pinyin));
+  a.done = true;
+  renderQuestion();
+}
+
+$('speakBtn').addEventListener('click', ()=> speak(questions[current].word, false));
+$('checkBtn').addEventListener('click', checkAnswer);
+$('typeInput').addEventListener('keydown', e => { if(e.key==='Enter') checkAnswer(); });
+$('prevBtn').addEventListener('click', ()=>{ if(current>0){ current--; renderQuestion(); } });
+$('nextBtn').addEventListener('click', ()=>{
+  if(!answers[current].done) return;
+  if(current < questions.length-1){ current++; renderQuestion(); }
+  else showResult();
+});
+
+function showResult(){
+  let score = 0;
+  const listEl = $('resultList');
+  listEl.innerHTML = '';
+  questions.forEach((q,i)=>{
+    const a = answers[i];
+    if(a.isCorrect) score++;
+    const row = document.createElement('div');
+    row.className = 'ritem ' + (a.isCorrect ? 'right':'wrong');
+    row.innerHTML = `<span class="hanzi-ruby ruby-line">${rubyHTML(q.word,q.pinyin)}</span><span>${a.isCorrect ? '✓' : ('bạn gõ: '+(a.userAnswer||'—'))}</span>`;
+    listEl.appendChild(row);
+  });
+  $('quizArea').classList.add('hidden');
+  $('resultArea').classList.remove('hidden');
+  $('scoreText').textContent = `${score} / ${questions.length}`;
+  const pct = score/questions.length;
+  $('stampArea').innerHTML = pct>=0.7 ? '<div class="stamp pass">Đạt</div>' : '<div class="stamp retry">Cần ôn thêm</div>';
+  saveHistoryEntry(score, questions.length);
+  renderHistoryPanel();
+}
+
+$('retryBtn').addEventListener('click', ()=> window.location.reload());
+
+ensureStudentGate((name) => {
+  renderGreeting('studentGreet');
+  renderHistoryPanel();
+  renderQuestion();
+});
+</script>
+</body>
+</html>
