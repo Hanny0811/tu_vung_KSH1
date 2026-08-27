@@ -40,6 +40,19 @@
   .speak-row{display:flex;justify-content:center;gap:10px;margin:10px 0;}
   .toggle-row{display:flex;justify-content:center;align-items:center;gap:6px;font-size:12px;font-family:'Space Mono',monospace;margin-bottom:22px;color:#5a5044;}
 
+  .name-gate{position:fixed;inset:0;background:rgba(30,51,72,0.78);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .name-gate.hidden{display:none;}
+  .name-gate-card{background:var(--white);border-radius:10px;padding:32px 26px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+  .name-gate-card h2{font-family:'Oswald',sans-serif;font-size:19px;margin:8px 0 18px;text-transform:none;letter-spacing:0;}
+  .name-gate-card input{width:100%;padding:11px 14px;border:1.5px solid var(--kraft-dark);border-radius:6px;font-family:'Libre Franklin',sans-serif;font-size:15px;margin-bottom:14px;text-align:center;box-sizing:border-box;}
+  .name-gate-card input:focus{outline:2px solid var(--ink);}
+  .student-greet{text-align:center;font-family:'Space Mono',monospace;font-size:11.5px;color:var(--rope);margin:-6px 0 16px;}
+  .student-greet a{color:var(--ink);text-decoration:underline;cursor:pointer;}
+  .history-panel{max-width:420px;margin:0 auto 16px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:8px;padding:12px 16px;font-size:12.5px;}
+  .history-panel .htitle{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rope);margin-bottom:8px;}
+  .history-panel .hrow{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--paper);}
+  .history-panel .hrow:first-of-type{border-top:none;}
+
 
   .progress-wrap{max-width:420px;margin:0 auto 6px;}
   .progress-track{height:6px;background:var(--kraft-dark);border-radius:4px;overflow:hidden;}
@@ -81,6 +94,15 @@
 </style>
 </head>
 <body>
+<div class="name-gate hidden" id="nameGateOverlay">
+  <div class="name-gate-card">
+    <div class="eyebrow">HSK1</div>
+    <h2>Nhập tên của bạn để bắt đầu</h2>
+    <input type="text" id="studentNameInput" placeholder="Tên của bạn...">
+    <button class="ctl primary" id="studentNameBtn" style="width:100%;">Bắt đầu học</button>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <div class="eyebrow">Inspection Deck · HSK1 Listening Test · Phần 2/6</div>
@@ -102,7 +124,10 @@
     <a class="navchip" href="hsk1-p6.html">Từ vựng P6</a>
     <a class="navchip" href="hsk1-test-p6.html">Test P6</a>
   </div>
+  <div class="student-greet" id="studentGreet"></div>
   <div class="note">Không cần gõ dấu thanh điệu — gõ đúng chữ cái pinyin là được tính đúng.</div>
+
+  <div id="historyPanelWrap"></div>
 
   <div id="quizArea">
     <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
@@ -199,9 +224,45 @@ let current = 0;
 let answers = new Array(questions.length).fill(null).map(()=>({done:false, userAnswer:'', isCorrect:false}));
 
 const $ = id => document.getElementById(id);
-function setStatus(msg, timeout=2200){
-  const el = document.getElementById('feedback');
+function setStatus(msg, timeout=2200){ }
+
+function slugName(n){ return n.trim().toLowerCase().replace(/\s+/g,'_'); }
+function getStudentName(){ return localStorage.getItem('hsk1_studentName') || ''; }
+function setStudentName(n){ localStorage.setItem('hsk1_studentName', n); }
+function keyFor(base){
+  const n = getStudentName();
+  return n ? base + '__' + slugName(n) : base;
 }
+function renderGreeting(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const n = getStudentName();
+  el.innerHTML = n ? ('Xin chào, <b>' + n + '</b> · <a id="switchStudentLink">Không phải bạn?</a>') : '';
+  const link = document.getElementById('switchStudentLink');
+  if(link) link.addEventListener('click', () => {
+    localStorage.removeItem('hsk1_studentName');
+    window.location.reload();
+  });
+}
+function ensureStudentGate(onReady){
+  const existing = getStudentName();
+  if(existing){ onReady(existing); return; }
+  const overlay = document.getElementById('nameGateOverlay');
+  overlay.classList.remove('hidden');
+  const btn = document.getElementById('studentNameBtn');
+  const input = document.getElementById('studentNameInput');
+  const submit = () => {
+    const val = input.value.trim();
+    if(!val) return;
+    setStudentName(val);
+    overlay.classList.add('hidden');
+    onReady(val);
+  };
+  btn.addEventListener('click', submit);
+  input.addEventListener('keydown', e => { if(e.key==='Enter') submit(); });
+  setTimeout(()=>input.focus(), 50);
+}
+
 
 const PREFERRED_VOICE_NAME = 'Google 普通话（中国大陆）';
 let zhVoice = null;
@@ -260,6 +321,28 @@ function speak(text, slow){
   });
 }
 
+
+function loadHistory(){
+  try{
+    const raw = localStorage.getItem(keyFor('hsk1testhistory_p2'));
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function saveHistoryEntry(score, total){
+  try{
+    const hist = loadHistory();
+    hist.push({date: new Date().toLocaleString('vi-VN'), score, total});
+    while(hist.length > 5) hist.shift();
+    localStorage.setItem(keyFor('hsk1testhistory_p2'), JSON.stringify(hist));
+  }catch(e){}
+}
+function renderHistoryPanel(){
+  const hist = loadHistory();
+  const wrap = $('historyPanelWrap');
+  if(!hist.length){ wrap.innerHTML=''; return; }
+  const rows = hist.slice().reverse().map(h => `<div class="hrow"><span>${h.date}</span><span>${h.score} / ${h.total}</span></div>`).join('');
+  wrap.innerHTML = `<div class="history-panel"><div class="htitle">Lịch sử làm bài gần đây</div>${rows}</div>`;
+}
 
 function renderQuestion(){
   const q = questions[current];
@@ -331,11 +414,17 @@ function showResult(){
   $('scoreText').textContent = `${score} / ${questions.length}`;
   const pct = score/questions.length;
   $('stampArea').innerHTML = pct>=0.7 ? '<div class="stamp pass">Đạt</div>' : '<div class="stamp retry">Cần ôn thêm</div>';
+  saveHistoryEntry(score, questions.length);
+  renderHistoryPanel();
 }
 
 $('retryBtn').addEventListener('click', ()=> window.location.reload());
 
-renderQuestion();
+ensureStudentGate((name) => {
+  renderGreeting('studentGreet');
+  renderHistoryPanel();
+  renderQuestion();
+});
 </script>
 </body>
 </html>
