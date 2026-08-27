@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ôn tập từ vựng HSK1</title>
+<title>HSK1 · Từ vựng Phần 1 (1-30)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -40,6 +40,7 @@
   .speak-row{display:flex;justify-content:center;gap:10px;margin:10px 0;}
   .toggle-row{display:flex;justify-content:center;align-items:center;gap:6px;font-size:12px;font-family:'Space Mono',monospace;margin-bottom:22px;color:#5a5044;}
 
+
   .tag-stage{display:flex;justify-content:center;perspective:1400px;margin-bottom:18px;position:relative;}
   .string{position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:2px;height:34px;background:var(--rope);z-index:0;}
   .tag{width:100%;max-width:440px;min-height:280px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,.9,.35,1);}
@@ -53,6 +54,8 @@
   .pos{font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px;}
   .hint{font-size:11px;color:#6b6152;font-family:'Space Mono',monospace;margin-top:6px;}
   .meaning{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;color:var(--ink);text-align:center;}
+  .example-cn{font-family:'Noto Sans SC',sans-serif;font-size:15px;color:var(--ink);text-align:center;margin-top:12px;line-height:1.5;padding:0 6px;}
+  .example-vi{font-size:12px;color:#6b6152;text-align:center;margin-top:4px;font-style:italic;padding:0 6px;}
   .stamp{position:absolute;bottom:16px;right:18px;font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;border:2.5px solid;border-radius:4px;padding:3px 8px;transform:rotate(-8deg);opacity:0.85;}
   .stamp.known{color:var(--stamp-green);border-color:var(--stamp-green);}
   .stamp.new{color:var(--stamp-red);border-color:var(--stamp-red);}
@@ -72,19 +75,30 @@
   .chip .del{opacity:0.5;font-weight:700;padding-left:2px;}
   .chip .del:hover{opacity:1;color:var(--stamp-red);}
   .empty{text-align:center;color:#8a7f6c;font-size:13px;padding:30px 0;}
+
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">Inspection Deck · HSK1 Vocabulary</div>
-    <h1>Ôn Tập Từ Vựng HSK1</h1>
-    <div class="sub">Pinyin hiển thị sẵn trên mỗi chữ · Bấm loa để nghe · Bấm thẻ để xem nghĩa</div>
+    <div class="eyebrow">Inspection Deck · HSK1 Vocabulary · Phần 1/6</div>
+    <h1>Từ Vựng HSK1 — Phần 1</h1>
+    <div class="sub">Từ 1 đến 30 (30 từ) · Pinyin hiển thị sẵn trên mỗi chữ</div>
   </header>
 
   <div class="nav-row">
-    <a class="navchip active" href="hsk1.html">Từ vựng</a>
-    <a class="navchip" href="hsk1-test1.html">Test nghe điền từ</a>
+    <a class="navchip active" href="hsk1-p1.html">Từ vựng P1</a>
+<a class="navchip" href="hsk1-test-p1.html">Test P1</a>
+<a class="navchip" href="hsk1-p2.html">Từ vựng P2</a>
+<a class="navchip" href="hsk1-test-p2.html">Test P2</a>
+<a class="navchip" href="hsk1-p3.html">Từ vựng P3</a>
+<a class="navchip" href="hsk1-test-p3.html">Test P3</a>
+<a class="navchip" href="hsk1-p4.html">Từ vựng P4</a>
+<a class="navchip" href="hsk1-test-p4.html">Test P4</a>
+<a class="navchip" href="hsk1-p5.html">Từ vựng P5</a>
+<a class="navchip" href="hsk1-test-p5.html">Test P5</a>
+<a class="navchip" href="hsk1-p6.html">Từ vựng P6</a>
+<a class="navchip" href="hsk1-test-p6.html">Test P6</a>
   </div>
 
   <div class="stats">
@@ -114,7 +128,9 @@
           <div class="word-zone">
             <div class="hanzi-ruby ruby-line" id="hanziBack" style="font-size:28px;"></div>
             <div class="meaning" id="meaningBack">—</div>
-            <div class="speak-row"><button class="speak-btn" id="speakWordBtn2" title="Nghe phát âm">▶</button></div>
+            <div class="example-cn" id="exampleBack"></div>
+            <div class="example-vi" id="exampleMeaningBack"></div>
+            <div class="speak-row"><button class="speak-btn" id="speakWordBtn2" title="Nghe câu ví dụ">▶</button></div>
           </div>
           <div class="stamp new" id="stampBack">Cần ôn</div>
         </div>
@@ -141,7 +157,7 @@
     <summary>+ Thêm từ mới</summary>
     <div class="form-grid">
       <div><label for="inWord">Hán tự</label><input id="inWord" placeholder="ví dụ: 谢谢"></div>
-      <div><label for="inPinyin">Pinyin (mỗi âm tiết cách nhau bằng dấu cách, theo đúng số chữ)</label><input id="inPinyin" placeholder="ví dụ: xiè xie"></div>
+      <div><label for="inPinyin">Pinyin (mỗi âm tiết cách nhau bằng dấu cách)</label><input id="inPinyin" placeholder="ví dụ: xiè xie"></div>
       <div>
         <label for="inPos">Loại từ</label>
         <select id="inPos">
@@ -158,174 +174,49 @@
         </select>
       </div>
       <div><label for="inMeaning">Nghĩa tiếng Việt</label><input id="inMeaning" placeholder="ví dụ: cảm ơn"></div>
+      <div><label for="inExample">Câu ví dụ (chữ Hán, không bắt buộc)</label><input id="inExample" placeholder="ví dụ: 谢谢你！"></div>
+      <div><label for="inExampleMeaning">Nghĩa câu ví dụ</label><input id="inExampleMeaning" placeholder="ví dụ: Cảm ơn bạn!"></div>
       <button class="ctl primary" id="addBtn" style="align-self:flex-start;">+ Thêm vào bộ thẻ</button>
     </div>
   </details>
 
-  <div class="deck-title">Toàn bộ từ vựng (157 từ)</div>
+  <div class="deck-title">Từ vựng Phần 1 (30 từ)</div>
   <div class="search-row"><input type="text" id="searchInput" placeholder="Tìm theo hán tự, pinyin hoặc nghĩa..."></div>
   <div class="deck-grid" id="deckGrid"></div>
 </div>
 
 <script>
 const SEED = [
-  {word:"爱", pinyin:["ài"], pos:"v.", meaning:"yêu, yêu thích"},
-  {word:"八", pinyin:["bā"], pos:"num.", meaning:"số tám"},
-  {word:"爸爸", pinyin:["bà", "ba"], pos:"n.", meaning:"bố, ba"},
-  {word:"杯子", pinyin:["bēi", "zi"], pos:"n.", meaning:"cái cốc, cái ly"},
-  {word:"北京", pinyin:["běi", "jīng"], pos:"n.", meaning:"Bắc Kinh"},
-  {word:"本", pinyin:["běn"], pos:"mw.", meaning:"(lượng từ cho sách, vở)"},
-  {word:"不", pinyin:["bù"], pos:"adv.", meaning:"không"},
-  {word:"不客气", pinyin:["bù", "kè", "qi"], pos:"phrase", meaning:"không có gì (đáp lại lời cảm ơn)"},
-  {word:"菜", pinyin:["cài"], pos:"n.", meaning:"món ăn, rau"},
-  {word:"茶", pinyin:["chá"], pos:"n.", meaning:"trà"},
-  {word:"吃", pinyin:["chī"], pos:"v.", meaning:"ăn"},
-  {word:"出租车", pinyin:["chū", "zū", "chē"], pos:"n.", meaning:"xe taxi"},
-  {word:"打电话", pinyin:["dǎ", "diàn", "huà"], pos:"phrase", meaning:"gọi điện thoại"},
-  {word:"大", pinyin:["dà"], pos:"adj.", meaning:"to, lớn"},
-  {word:"的", pinyin:["de"], pos:"particle", meaning:"trợ từ sở hữu (của)"},
-  {word:"点", pinyin:["diǎn"], pos:"mw.", meaning:"giờ, chấm, một chút"},
-  {word:"电脑", pinyin:["diàn", "nǎo"], pos:"n.", meaning:"máy tính"},
-  {word:"电视", pinyin:["diàn", "shì"], pos:"n.", meaning:"tivi"},
-  {word:"电影", pinyin:["diàn", "yǐng"], pos:"n.", meaning:"phim"},
-  {word:"东西", pinyin:["dōng", "xi"], pos:"n.", meaning:"đồ vật"},
-  {word:"都", pinyin:["dōu"], pos:"adv.", meaning:"đều"},
-  {word:"读", pinyin:["dú"], pos:"v.", meaning:"đọc"},
-  {word:"对不起", pinyin:["duì", "bu", "qǐ"], pos:"phrase", meaning:"xin lỗi"},
-  {word:"多", pinyin:["duō"], pos:"adj.", meaning:"nhiều"},
-  {word:"多少", pinyin:["duō", "shao"], pos:"pron.", meaning:"bao nhiêu"},
-  {word:"儿子", pinyin:["ér", "zi"], pos:"n.", meaning:"con trai"},
-  {word:"二", pinyin:["èr"], pos:"num.", meaning:"số hai"},
-  {word:"饭店", pinyin:["fàn", "diàn"], pos:"n.", meaning:"nhà hàng, khách sạn"},
-  {word:"飞机", pinyin:["fēi", "jī"], pos:"n.", meaning:"máy bay"},
-  {word:"分钟", pinyin:["fēn", "zhōng"], pos:"mw.", meaning:"phút"},
-  {word:"高兴", pinyin:["gāo", "xìng"], pos:"adj.", meaning:"vui, vui mừng"},
-  {word:"个", pinyin:["gè"], pos:"mw.", meaning:"(lượng từ chung)"},
-  {word:"工作", pinyin:["gōng", "zuò"], pos:"v./n.", meaning:"làm việc, công việc"},
-  {word:"汉语", pinyin:["Hàn", "yǔ"], pos:"n.", meaning:"tiếng Hán, tiếng Trung"},
-  {word:"好", pinyin:["hǎo"], pos:"adj.", meaning:"tốt, khỏe"},
-  {word:"号", pinyin:["hào"], pos:"n.", meaning:"số, ngày (trong tháng)"},
-  {word:"喝", pinyin:["hē"], pos:"v.", meaning:"uống"},
-  {word:"和", pinyin:["hé"], pos:"conj.", meaning:"và"},
-  {word:"很", pinyin:["hěn"], pos:"adv.", meaning:"rất"},
-  {word:"后面", pinyin:["hòu", "miàn"], pos:"n.", meaning:"phía sau"},
-  {word:"回", pinyin:["huí"], pos:"v.", meaning:"trở về"},
-  {word:"会", pinyin:["huì"], pos:"v.", meaning:"biết, sẽ"},
-  {word:"几", pinyin:["jǐ"], pos:"pron.", meaning:"mấy"},
-  {word:"家", pinyin:["jiā"], pos:"n.", meaning:"nhà"},
-  {word:"叫", pinyin:["jiào"], pos:"v.", meaning:"gọi là, tên là"},
-  {word:"今天", pinyin:["jīn", "tiān"], pos:"n.", meaning:"hôm nay"},
-  {word:"九", pinyin:["jiǔ"], pos:"num.", meaning:"số chín"},
-  {word:"开", pinyin:["kāi"], pos:"v.", meaning:"mở, lái (xe)"},
-  {word:"看", pinyin:["kàn"], pos:"v.", meaning:"xem, nhìn"},
-  {word:"看见", pinyin:["kàn", "jiàn"], pos:"v.", meaning:"nhìn thấy"},
-  {word:"块", pinyin:["kuài"], pos:"mw.", meaning:"đồng (tiền), miếng"},
-  {word:"来", pinyin:["lái"], pos:"v.", meaning:"đến"},
-  {word:"老师", pinyin:["lǎo", "shī"], pos:"n.", meaning:"giáo viên"},
-  {word:"了", pinyin:["le"], pos:"particle", meaning:"trợ từ (đã, rồi)"},
-  {word:"冷", pinyin:["lěng"], pos:"adj.", meaning:"lạnh"},
-  {word:"里", pinyin:["lǐ"], pos:"n.", meaning:"bên trong"},
-  {word:"六", pinyin:["liù"], pos:"num.", meaning:"số sáu"},
-  {word:"妈妈", pinyin:["mā", "ma"], pos:"n.", meaning:"mẹ"},
-  {word:"吗", pinyin:["ma"], pos:"particle", meaning:"trợ từ nghi vấn"},
-  {word:"买", pinyin:["mǎi"], pos:"v.", meaning:"mua"},
-  {word:"猫", pinyin:["māo"], pos:"n.", meaning:"con mèo"},
-  {word:"没关系", pinyin:["méi", "guān", "xi"], pos:"phrase", meaning:"không sao đâu"},
-  {word:"没有", pinyin:["méi", "yǒu"], pos:"v.", meaning:"không có"},
-  {word:"米饭", pinyin:["mǐ", "fàn"], pos:"n.", meaning:"cơm"},
-  {word:"明天", pinyin:["míng", "tiān"], pos:"n.", meaning:"ngày mai"},
-  {word:"名字", pinyin:["míng", "zi"], pos:"n.", meaning:"tên"},
-  {word:"哪", pinyin:["nǎ"], pos:"pron.", meaning:"nào"},
-  {word:"哪儿", pinyin:["nǎ", "r"], pos:"pron.", meaning:"ở đâu"},
-  {word:"那", pinyin:["nà"], pos:"pron.", meaning:"đó, kia"},
-  {word:"呢", pinyin:["ne"], pos:"particle", meaning:"trợ từ (thì sao, nhỉ)"},
-  {word:"能", pinyin:["néng"], pos:"v.", meaning:"có thể"},
-  {word:"你", pinyin:["nǐ"], pos:"pron.", meaning:"bạn"},
-  {word:"年", pinyin:["nián"], pos:"n.", meaning:"năm"},
-  {word:"女儿", pinyin:["nǚ", "ér"], pos:"n.", meaning:"con gái"},
-  {word:"朋友", pinyin:["péng", "you"], pos:"n.", meaning:"bạn bè"},
-  {word:"漂亮", pinyin:["piào", "liang"], pos:"adj.", meaning:"xinh đẹp"},
-  {word:"苹果", pinyin:["píng", "guǒ"], pos:"n.", meaning:"táo"},
-  {word:"七", pinyin:["qī"], pos:"num.", meaning:"số bảy"},
-  {word:"前面", pinyin:["qián", "miàn"], pos:"n.", meaning:"phía trước"},
-  {word:"钱", pinyin:["qián"], pos:"n.", meaning:"tiền"},
-  {word:"请", pinyin:["qǐng"], pos:"v.", meaning:"mời, xin"},
-  {word:"去", pinyin:["qù"], pos:"v.", meaning:"đi"},
-  {word:"热", pinyin:["rè"], pos:"adj.", meaning:"nóng"},
-  {word:"人", pinyin:["rén"], pos:"n.", meaning:"người"},
-  {word:"认识", pinyin:["rèn", "shi"], pos:"v.", meaning:"quen biết"},
-  {word:"三", pinyin:["sān"], pos:"num.", meaning:"số ba"},
-  {word:"商店", pinyin:["shāng", "diàn"], pos:"n.", meaning:"cửa hàng"},
-  {word:"上", pinyin:["shàng"], pos:"n./v.", meaning:"trên, lên"},
-  {word:"上午", pinyin:["shàng", "wǔ"], pos:"n.", meaning:"buổi sáng"},
-  {word:"少", pinyin:["shǎo"], pos:"adj.", meaning:"ít"},
-  {word:"谁", pinyin:["shéi"], pos:"pron.", meaning:"ai"},
-  {word:"什么", pinyin:["shén", "me"], pos:"pron.", meaning:"cái gì"},
-  {word:"十", pinyin:["shí"], pos:"num.", meaning:"số mười"},
-  {word:"时候", pinyin:["shí", "hou"], pos:"n.", meaning:"lúc, thời điểm"},
-  {word:"是", pinyin:["shì"], pos:"v.", meaning:"là"},
-  {word:"书", pinyin:["shū"], pos:"n.", meaning:"sách"},
-  {word:"水", pinyin:["shuǐ"], pos:"n.", meaning:"nước"},
-  {word:"水果", pinyin:["shuǐ", "guǒ"], pos:"n.", meaning:"trái cây"},
-  {word:"睡觉", pinyin:["shuì", "jiào"], pos:"v.", meaning:"ngủ"},
-  {word:"说", pinyin:["shuō"], pos:"v.", meaning:"nói"},
-  {word:"四", pinyin:["sì"], pos:"num.", meaning:"số bốn"},
-  {word:"岁", pinyin:["suì"], pos:"mw.", meaning:"tuổi"},
-  {word:"他", pinyin:["tā"], pos:"pron.", meaning:"anh ấy"},
-  {word:"她", pinyin:["tā"], pos:"pron.", meaning:"cô ấy"},
-  {word:"太", pinyin:["tài"], pos:"adv.", meaning:"quá"},
-  {word:"天气", pinyin:["tiān", "qì"], pos:"n.", meaning:"thời tiết"},
-  {word:"天", pinyin:["tiān"], pos:"n.", meaning:"trời, ngày"},
-  {word:"听", pinyin:["tīng"], pos:"v.", meaning:"nghe"},
-  {word:"同学", pinyin:["tóng", "xué"], pos:"n.", meaning:"bạn học"},
-  {word:"喂", pinyin:["wèi"], pos:"interj.", meaning:"alô"},
-  {word:"我", pinyin:["wǒ"], pos:"pron.", meaning:"tôi"},
-  {word:"我们", pinyin:["wǒ", "men"], pos:"pron.", meaning:"chúng tôi"},
-  {word:"五", pinyin:["wǔ"], pos:"num.", meaning:"số năm"},
-  {word:"喜欢", pinyin:["xǐ", "huan"], pos:"v.", meaning:"thích"},
-  {word:"下", pinyin:["xià"], pos:"n./v.", meaning:"dưới, xuống"},
-  {word:"下午", pinyin:["xià", "wǔ"], pos:"n.", meaning:"buổi chiều"},
-  {word:"下雨", pinyin:["xià", "yǔ"], pos:"v.", meaning:"trời mưa"},
-  {word:"先生", pinyin:["xiān", "sheng"], pos:"n.", meaning:"ông, tiên sinh"},
-  {word:"现在", pinyin:["xiàn", "zài"], pos:"n.", meaning:"bây giờ"},
-  {word:"想", pinyin:["xiǎng"], pos:"v.", meaning:"muốn, nghĩ"},
-  {word:"小", pinyin:["xiǎo"], pos:"adj.", meaning:"nhỏ"},
-  {word:"小姐", pinyin:["xiǎo", "jiě"], pos:"n.", meaning:"cô, tiểu thư"},
-  {word:"些", pinyin:["xiē"], pos:"mw.", meaning:"một vài, một số"},
-  {word:"谢谢", pinyin:["xiè", "xie"], pos:"v.", meaning:"cảm ơn"},
-  {word:"星期", pinyin:["xīng", "qī"], pos:"n.", meaning:"tuần"},
-  {word:"学生", pinyin:["xué", "sheng"], pos:"n.", meaning:"học sinh"},
-  {word:"学习", pinyin:["xué", "xí"], pos:"v.", meaning:"học tập"},
-  {word:"学校", pinyin:["xué", "xiào"], pos:"n.", meaning:"trường học"},
-  {word:"一", pinyin:["yī"], pos:"num.", meaning:"số một"},
-  {word:"一点儿", pinyin:["yì", "diǎn", "r"], pos:"adv.", meaning:"một chút"},
-  {word:"衣服", pinyin:["yī", "fu"], pos:"n.", meaning:"quần áo"},
-  {word:"医生", pinyin:["yī", "shēng"], pos:"n.", meaning:"bác sĩ"},
-  {word:"医院", pinyin:["yī", "yuàn"], pos:"n.", meaning:"bệnh viện"},
-  {word:"一下", pinyin:["yí", "xià"], pos:"phrase", meaning:"một chút, thử xem"},
-  {word:"椅子", pinyin:["yǐ", "zi"], pos:"n.", meaning:"cái ghế"},
-  {word:"一起", pinyin:["yì", "qǐ"], pos:"adv.", meaning:"cùng nhau"},
-  {word:"因为", pinyin:["yīn", "wèi"], pos:"conj.", meaning:"vì, bởi vì"},
-  {word:"阴", pinyin:["yīn"], pos:"adj.", meaning:"âm u (trời)"},
-  {word:"银行", pinyin:["yín", "háng"], pos:"n.", meaning:"ngân hàng"},
-  {word:"应该", pinyin:["yīng", "gāi"], pos:"v.", meaning:"nên, phải"},
-  {word:"用", pinyin:["yòng"], pos:"v.", meaning:"dùng"},
-  {word:"有", pinyin:["yǒu"], pos:"v.", meaning:"có"},
-  {word:"月", pinyin:["yuè"], pos:"n.", meaning:"tháng"},
-  {word:"再见", pinyin:["zài", "jiàn"], pos:"phrase", meaning:"tạm biệt"},
-  {word:"在", pinyin:["zài"], pos:"v./prep.", meaning:"ở, tại"},
-  {word:"早上", pinyin:["zǎo", "shang"], pos:"n.", meaning:"buổi sáng sớm"},
-  {word:"怎么", pinyin:["zěn", "me"], pos:"pron.", meaning:"như thế nào"},
-  {word:"怎么样", pinyin:["zěn", "me", "yàng"], pos:"pron.", meaning:"như thế nào"},
-  {word:"这", pinyin:["zhè"], pos:"pron.", meaning:"này"},
-  {word:"中国", pinyin:["Zhōng", "guó"], pos:"n.", meaning:"Trung Quốc"},
-  {word:"中午", pinyin:["zhōng", "wǔ"], pos:"n.", meaning:"buổi trưa"},
-  {word:"住", pinyin:["zhù"], pos:"v.", meaning:"ở, sống"},
-  {word:"桌子", pinyin:["zhuō", "zi"], pos:"n.", meaning:"cái bàn"},
-  {word:"字", pinyin:["zì"], pos:"n.", meaning:"chữ"},
-  {word:"昨天", pinyin:["zuó", "tiān"], pos:"n.", meaning:"hôm qua"},
-  {word:"做", pinyin:["zuò"], pos:"v.", meaning:"làm"},
-  {word:"坐", pinyin:["zuò"], pos:"v.", meaning:"ngồi"}
+  {word:"爱", pinyin:["ài"], pos:"v.", meaning:"yêu, yêu thích", example:"我爱我的妈妈。", exampleMeaning:"Tôi yêu mẹ của tôi."},
+  {word:"八", pinyin:["bā"], pos:"num.", meaning:"số tám", example:"我有八本书。", exampleMeaning:"Tôi có tám quyển sách."},
+  {word:"爸爸", pinyin:["bà", "ba"], pos:"n.", meaning:"bố, ba", example:"爸爸在家。", exampleMeaning:"Bố ở nhà."},
+  {word:"杯子", pinyin:["bēi", "zi"], pos:"n.", meaning:"cái cốc, cái ly", example:"这个杯子很漂亮。", exampleMeaning:"Cái cốc này rất đẹp."},
+  {word:"北京", pinyin:["běi", "jīng"], pos:"n.", meaning:"Bắc Kinh", example:"我想去北京。", exampleMeaning:"Tôi muốn đi Bắc Kinh."},
+  {word:"本", pinyin:["běn"], pos:"mw.", meaning:"(lượng từ cho sách, vở)", example:"我买了三本书。", exampleMeaning:"Tôi đã mua ba quyển sách."},
+  {word:"不", pinyin:["bù"], pos:"adv.", meaning:"không", example:"我不喜欢喝茶。", exampleMeaning:"Tôi không thích uống trà."},
+  {word:"不客气", pinyin:["bù", "kè", "qi"], pos:"phrase", meaning:"không có gì (đáp lại lời cảm ơn)", example:"不客气，再见。", exampleMeaning:"Không có gì, tạm biệt."},
+  {word:"菜", pinyin:["cài"], pos:"n.", meaning:"món ăn, rau", example:"这个菜很好吃。", exampleMeaning:"Món ăn này rất ngon."},
+  {word:"茶", pinyin:["chá"], pos:"n.", meaning:"trà", example:"我想喝茶。", exampleMeaning:"Tôi muốn uống trà."},
+  {word:"吃", pinyin:["chī"], pos:"v.", meaning:"ăn", example:"我们一起吃饭吧。", exampleMeaning:"Chúng ta cùng ăn cơm nhé."},
+  {word:"出租车", pinyin:["chū", "zū", "chē"], pos:"n.", meaning:"xe taxi", example:"我坐出租车去学校。", exampleMeaning:"Tôi đi taxi đến trường."},
+  {word:"打电话", pinyin:["dǎ", "diàn", "huà"], pos:"phrase", meaning:"gọi điện thoại", example:"我给你打电话。", exampleMeaning:"Tôi gọi điện thoại cho bạn."},
+  {word:"大", pinyin:["dà"], pos:"adj.", meaning:"to, lớn", example:"这个苹果很大。", exampleMeaning:"Quả táo này rất to."},
+  {word:"的", pinyin:["de"], pos:"particle", meaning:"trợ từ sở hữu (của)", example:"这是我的书。", exampleMeaning:"Đây là sách của tôi."},
+  {word:"点", pinyin:["diǎn"], pos:"mw.", meaning:"giờ, chấm, một chút", example:"现在几点？", exampleMeaning:"Bây giờ mấy giờ?"},
+  {word:"电脑", pinyin:["diàn", "nǎo"], pos:"n.", meaning:"máy tính", example:"我在用电脑。", exampleMeaning:"Tôi đang dùng máy tính."},
+  {word:"电视", pinyin:["diàn", "shì"], pos:"n.", meaning:"tivi", example:"他在看电视。", exampleMeaning:"Anh ấy đang xem tivi."},
+  {word:"电影", pinyin:["diàn", "yǐng"], pos:"n.", meaning:"phim", example:"我们去看电影吧。", exampleMeaning:"Chúng ta đi xem phim nhé."},
+  {word:"东西", pinyin:["dōng", "xi"], pos:"n.", meaning:"đồ vật", example:"这是什么东西？", exampleMeaning:"Đây là đồ gì?"},
+  {word:"都", pinyin:["dōu"], pos:"adv.", meaning:"đều", example:"我们都是学生。", exampleMeaning:"Chúng tôi đều là học sinh."},
+  {word:"读", pinyin:["dú"], pos:"v.", meaning:"đọc", example:"我每天读书。", exampleMeaning:"Tôi đọc sách mỗi ngày."},
+  {word:"对不起", pinyin:["duì", "bu", "qǐ"], pos:"phrase", meaning:"xin lỗi", example:"对不起，我来晚了。", exampleMeaning:"Xin lỗi, tôi đến muộn."},
+  {word:"多", pinyin:["duō"], pos:"adj.", meaning:"nhiều", example:"这里的人很多。", exampleMeaning:"Ở đây có rất nhiều người."},
+  {word:"多少", pinyin:["duō", "shao"], pos:"pron.", meaning:"bao nhiêu", example:"这个多少钱？", exampleMeaning:"Cái này bao nhiêu tiền?"},
+  {word:"儿子", pinyin:["ér", "zi"], pos:"n.", meaning:"con trai", example:"他有一个儿子。", exampleMeaning:"Anh ấy có một con trai."},
+  {word:"二", pinyin:["èr"], pos:"num.", meaning:"số hai", example:"我有二十块钱。", exampleMeaning:"Tôi có hai mươi đồng."},
+  {word:"饭店", pinyin:["fàn", "diàn"], pos:"n.", meaning:"nhà hàng, khách sạn", example:"我们在饭店吃饭。", exampleMeaning:"Chúng tôi ăn cơm ở nhà hàng."},
+  {word:"飞机", pinyin:["fēi", "jī"], pos:"n.", meaning:"máy bay", example:"我坐飞机去北京。", exampleMeaning:"Tôi đi máy bay tới Bắc Kinh."},
+  {word:"分钟", pinyin:["fēn", "zhōng"], pos:"mw.", meaning:"phút", example:"请等我五分钟。", exampleMeaning:"Xin đợi tôi năm phút."}
 ];
 
 function rubyHTML(word, pinyinArr){
@@ -351,7 +242,7 @@ function setStatus(msg, timeout=2200){
 
 async function loadCards(){
   try{
-    const raw = localStorage.getItem('hsk1cards_v2');
+    const raw = localStorage.getItem('hsk1cards_p1');
     cards = raw ? JSON.parse(raw) : [];
   }catch(e){ cards = []; }
   if(!cards || cards.length === 0){
@@ -363,7 +254,7 @@ async function loadCards(){
 }
 
 async function saveCards(){
-  try{ localStorage.setItem('hsk1cards_v2', JSON.stringify(cards)); }
+  try{ localStorage.setItem('hsk1cards_p1', JSON.stringify(cards)); }
   catch(e){ setStatus('Loi khi luu du lieu.'); }
 }
 
@@ -412,6 +303,8 @@ function render(){
   $('hanziBack').innerHTML = rubyHTML(c.word, c.pinyin);
   $('posFront').textContent = c.pos || '';
   $('meaningBack').textContent = c.meaning || '';
+  $('exampleBack').textContent = c.example || '';
+  $('exampleMeaningBack').textContent = c.exampleMeaning || '';
 
   const known2 = c.status === 'known';
   [$('stampFront'), $('stampBack')].forEach(el=>{
@@ -447,27 +340,73 @@ function renderDeck(){
   });
 }
 
+
+const PREFERRED_VOICE_NAME = 'Google 普通话（中国大陆）';
 let zhVoice = null;
+let preferredVoice = null;
+function normVoiceName(s){
+  return (s || '').replace(/\s+/g,'').replace(/[（(]/g,'(').replace(/[）)]/g,')');
+}
 function pickZhVoice(){
   if(!('speechSynthesis' in window)) return;
   const voices = window.speechSynthesis.getVoices();
-  zhVoice = voices.find(v=>v.lang==='zh-CN') || voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh')) || null;
+  const targetNorm = normVoiceName(PREFERRED_VOICE_NAME);
+  preferredVoice =
+    voices.find(v => normVoiceName(v.name) === targetNorm) ||
+    voices.find(v => /普通话/.test(v.name || '') && /中国大陆|中國大陸/.test(v.name || '')) ||
+    null;
+  zhVoice =
+    preferredVoice ||
+    voices.find(v => v.lang === 'zh-CN') ||
+    voices.find(v => v.lang === 'cmn-Hans-CN') ||
+    voices.find(v => v.lang && /zh[-_]?(cn|hans)/i.test(v.lang)) ||
+    voices.find(v => v.lang && v.lang.toLowerCase().startsWith('zh')) ||
+    voices.find(v => /chinese|mandarin|普通话|中文|國語/i.test(v.name || '')) ||
+    null;
 }
 if('speechSynthesis' in window){ pickZhVoice(); window.speechSynthesis.onvoiceschanged = pickZhVoice; }
 
-function speak(text){
-  if(!('speechSynthesis' in window)){ setStatus('Trinh duyet khong ho tro doc.'); return; }
+function speakWithBrowserVoice(text, rate){
+  if(!('speechSynthesis' in window)) return false;
   if(!zhVoice) pickZhVoice();
+  if(!zhVoice) return false;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'zh-CN';
-  if(zhVoice) u.voice = zhVoice; else setStatus('May chua co giong doc tieng Trung.');
-  u.rate = $('slowToggle').checked ? 0.6 : 0.9;
+  u.voice = zhVoice;
+  u.lang = zhVoice.lang || 'zh-CN';
+  u.rate = rate;
   window.speechSynthesis.speak(u);
+  setStatus('Giong: ' + zhVoice.name, 1600);
+  return true;
 }
-function speakCurrent(){ const c = cards[order[current]]; if(c) speak(c.word); }
-$('speakWordBtn').addEventListener('click', speakCurrent);
-$('speakWordBtn2').addEventListener('click', speakCurrent);
+function speakWithGoogleTTS(text, rate, onFail){
+  const ttsUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(text) + '&tl=zh-CN&client=tw-ob';
+  let failed = false;
+  const audio = new Audio(ttsUrl);
+  audio.playbackRate = rate;
+  const fail = () => { if(failed) return; failed = true; onFail(); };
+  audio.addEventListener('error', fail);
+  audio.play().then(()=>{ setStatus('Giong: Google Translate TTS (online)', 1600); }).catch(fail);
+}
+function speak(text, slow){
+  const rate = slow ? 0.6 : 0.95;
+  if(!zhVoice) pickZhVoice();
+  if(preferredVoice){ speakWithBrowserVoice(text, rate); return; }
+  speakWithGoogleTTS(text, rate, () => {
+    const ok = speakWithBrowserVoice(text, rate);
+    if(!ok) setStatus('Khong the phat am: khong co mang va may khong co giong tieng Trung.');
+  });
+}
+
+function speakCurrentWord(){ const c = cards[order[current]]; if(c) speak(c.word, $('slowToggle').checked); }
+function speakCurrentExample(){
+  const c = cards[order[current]];
+  if(!c) return;
+  if(c.example){ speak(c.example, $('slowToggle').checked); }
+  else{ speak(c.word, $('slowToggle').checked); setStatus('Tu nay chua co cau vi du, doc lai tu.'); }
+}
+$('speakWordBtn').addEventListener('click', speakCurrentWord);
+$('speakWordBtn2').addEventListener('click', speakCurrentExample);
 
 $('tag').addEventListener('click', (e)=>{ if(e.target.closest('.speak-btn')) return; flipped=!flipped; render(); });
 $('flipBtn').addEventListener('click', ()=>{ flipped=!flipped; render(); });
@@ -492,12 +431,14 @@ $('addBtn').addEventListener('click', async ()=>{
   const pinyinStr = $('inPinyin').value.trim();
   const pos = $('inPos').value;
   const meaning = $('inMeaning').value.trim();
+  const example = $('inExample').value.trim();
+  const exampleMeaning = $('inExampleMeaning').value.trim();
   if(!word || !meaning || !pinyinStr){ setStatus('Vui long nhap du han tu, pinyin va nghia.'); return; }
   const pinyin = pinyinStr.split(/\s+/);
-  cards.push({id:'c'+Date.now(), word, pinyin, pos, meaning, status:'new'});
+  cards.push({id:'c'+Date.now(), word, pinyin, pos, meaning, example, exampleMeaning, status:'new'});
   applyFilter(); current = order.length - 1; flipped = false;
   await saveCards(); render();
-  $('inWord').value=''; $('inPinyin').value=''; $('inPos').value=''; $('inMeaning').value='';
+  $('inWord').value=''; $('inPinyin').value=''; $('inPos').value=''; $('inMeaning').value=''; $('inExample').value=''; $('inExampleMeaning').value='';
   setStatus('Da them the "'+word+'".');
 });
 
