@@ -40,6 +40,19 @@
   .speak-row{display:flex;justify-content:center;gap:10px;margin:10px 0;}
   .toggle-row{display:flex;justify-content:center;align-items:center;gap:6px;font-size:12px;font-family:'Space Mono',monospace;margin-bottom:22px;color:#5a5044;}
 
+  .name-gate{position:fixed;inset:0;background:rgba(30,51,72,0.78);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .name-gate.hidden{display:none;}
+  .name-gate-card{background:var(--white);border-radius:10px;padding:32px 26px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+  .name-gate-card h2{font-family:'Oswald',sans-serif;font-size:19px;margin:8px 0 18px;text-transform:none;letter-spacing:0;}
+  .name-gate-card input{width:100%;padding:11px 14px;border:1.5px solid var(--kraft-dark);border-radius:6px;font-family:'Libre Franklin',sans-serif;font-size:15px;margin-bottom:14px;text-align:center;box-sizing:border-box;}
+  .name-gate-card input:focus{outline:2px solid var(--ink);}
+  .student-greet{text-align:center;font-family:'Space Mono',monospace;font-size:11.5px;color:var(--rope);margin:-6px 0 16px;}
+  .student-greet a{color:var(--ink);text-decoration:underline;cursor:pointer;}
+  .history-panel{max-width:420px;margin:0 auto 16px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:8px;padding:12px 16px;font-size:12.5px;}
+  .history-panel .htitle{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rope);margin-bottom:8px;}
+  .history-panel .hrow{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--paper);}
+  .history-panel .hrow:first-of-type{border-top:none;}
+
 
   .tag-stage{display:flex;justify-content:center;perspective:1400px;margin-bottom:18px;position:relative;}
   .string{position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:2px;height:34px;background:var(--rope);z-index:0;}
@@ -79,6 +92,15 @@
 </style>
 </head>
 <body>
+<div class="name-gate hidden" id="nameGateOverlay">
+  <div class="name-gate-card">
+    <div class="eyebrow">HSK1</div>
+    <h2>Nhập tên của bạn để bắt đầu</h2>
+    <input type="text" id="studentNameInput" placeholder="Tên của bạn...">
+    <button class="ctl primary" id="studentNameBtn" style="width:100%;">Bắt đầu học</button>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <div class="eyebrow">Inspection Deck · HSK1 Vocabulary · Phần 2/6</div>
@@ -100,6 +122,7 @@
     <a class="navchip" href="hsk1-p6.html">Từ vựng P6</a>
     <a class="navchip" href="hsk1-test-p6.html">Test P6</a>
   </div>
+  <div class="student-greet" id="studentGreet"></div>
 
   <div class="stats">
     <div>TỔNG THẺ: <b id="statTotal">0</b></div>
@@ -240,25 +263,65 @@ function setStatus(msg, timeout=2200){
   if(timeout){ setTimeout(()=>{ if(statusLine.textContent===msg) statusLine.textContent=''; }, timeout); }
 }
 
+function slugName(n){ return n.trim().toLowerCase().replace(/\s+/g,'_'); }
+function getStudentName(){ return localStorage.getItem('hsk1_studentName') || ''; }
+function setStudentName(n){ localStorage.setItem('hsk1_studentName', n); }
+function keyFor(base){
+  const n = getStudentName();
+  return n ? base + '__' + slugName(n) : base;
+}
+function renderGreeting(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const n = getStudentName();
+  el.innerHTML = n ? ('Xin chào, <b>' + n + '</b> · <a id="switchStudentLink">Không phải bạn?</a>') : '';
+  const link = document.getElementById('switchStudentLink');
+  if(link) link.addEventListener('click', () => {
+    localStorage.removeItem('hsk1_studentName');
+    window.location.reload();
+  });
+}
+function ensureStudentGate(onReady){
+  const existing = getStudentName();
+  if(existing){ onReady(existing); return; }
+  const overlay = document.getElementById('nameGateOverlay');
+  overlay.classList.remove('hidden');
+  const btn = document.getElementById('studentNameBtn');
+  const input = document.getElementById('studentNameInput');
+  const submit = () => {
+    const val = input.value.trim();
+    if(!val) return;
+    setStudentName(val);
+    overlay.classList.add('hidden');
+    onReady(val);
+  };
+  btn.addEventListener('click', submit);
+  input.addEventListener('keydown', e => { if(e.key==='Enter') submit(); });
+  setTimeout(()=>input.focus(), 50);
+}
+
 async function loadCards(){
   try{
-    const raw = localStorage.getItem('hsk1cards_p2');
-    cards = raw ? JSON.parse(raw) : [];
-  }catch(e){ cards = []; }
+    const raw = localStorage.getItem(keyFor('hsk1cards_p2'));
+    const parsed = raw ? JSON.parse(raw) : null;
+    if(parsed && parsed.cards && parsed.cards.length){ cards = parsed.cards; current = parsed.current || 0; }
+    else{ cards = []; current = 0; }
+  }catch(e){ cards = []; current = 0; }
   if(!cards || cards.length === 0){
     cards = SEED.map((c,i)=>({id:'c'+Date.now()+i, status:'new', ...c}));
+    current = 0;
     await saveCards();
   }
-  applyFilter();
+  applyFilter(true);
   render();
 }
 
 async function saveCards(){
-  try{ localStorage.setItem('hsk1cards_p2', JSON.stringify(cards)); }
+  try{ localStorage.setItem(keyFor('hsk1cards_p2'), JSON.stringify({current, cards})); }
   catch(e){ setStatus('Loi khi luu du lieu.'); }
 }
 
-function applyFilter(){
+function applyFilter(keepCurrent){
   let idxs = cards.map((_,i)=>i);
   if(filterUnknownOnly) idxs = idxs.filter(i => cards[i].status !== 'known');
   if(searchTerm){
@@ -269,7 +332,8 @@ function applyFilter(){
     });
   }
   order = idxs;
-  current = 0;
+  if(!keepCurrent) current = 0;
+  else if(current >= order.length) current = 0;
 }
 
 function render(){
@@ -335,6 +399,7 @@ function renderDeck(){
       current = pos >= 0 ? pos : 0;
       flipped = false;
       render();
+      saveCards();
     });
     grid.appendChild(chip);
   });
@@ -409,8 +474,8 @@ $('speakWordBtn2').addEventListener('click', speakCurrentExample);
 
 $('tag').addEventListener('click', (e)=>{ if(e.target.closest('.speak-btn')) return; flipped=!flipped; render(); });
 $('flipBtn').addEventListener('click', ()=>{ flipped=!flipped; render(); });
-$('nextBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current+1)%order.length; flipped=false; render(); });
-$('prevBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current-1+order.length)%order.length; flipped=false; render(); });
+$('nextBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current+1)%order.length; flipped=false; render(); saveCards(); });
+$('prevBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current-1+order.length)%order.length; flipped=false; render(); saveCards(); });
 $('shuffleBtn').addEventListener('click', ()=>{
   for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
   current=0; flipped=false; render(); setStatus('Da xao bo the.');
@@ -441,7 +506,10 @@ $('addBtn').addEventListener('click', async ()=>{
   setStatus('Da them the "'+word+'".');
 });
 
-loadCards();
+ensureStudentGate((name) => {
+  renderGreeting('studentGreet');
+  loadCards();
+});
 </script>
 </body>
 </html>
