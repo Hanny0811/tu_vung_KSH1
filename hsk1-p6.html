@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HSK1 · Từ vựng Phần 6 (151-157)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper: #F2ECDD; --kraft: #D9C7A0; --kraft-dark: #C7B285; --ink: #1E3348;
+    --rope: #8B6F47; --stamp-red: #B23A2E; --stamp-green: #3F6E4E; --white: #FBF8F1;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);background-image:radial-gradient(circle at 1px 1px, rgba(30,51,72,0.06) 1px, transparent 0);background-size:22px 22px;font-family:'Libre Franklin', sans-serif;color:var(--ink);min-height:100vh;padding:28px 16px 60px;}
+  .wrap{max-width:640px;margin:0 auto;}
+  header{text-align:center;margin-bottom:16px;}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--rope);text-transform:uppercase;}
+  h1{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:26px;margin:4px 0 2px;}
+  .sub{font-size:13px;color:#5a5044;}
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:18px;}
+  .navchip{font-family:'Space Mono',monospace;font-size:11px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:20px;padding:5px 10px;text-decoration:none;color:var(--ink);}
+  .navchip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .ruby-line{font-family:'Noto Sans SC',sans-serif;line-height:2.6;}
+  .ruby-line ruby{margin:0 1px;}
+  .ruby-line rt{font-family:'Libre Franklin',sans-serif;font-size:0.42em;color:var(--rope);font-weight:600;}
+  .stats{display:flex;justify-content:center;gap:18px;font-family:'Space Mono',monospace;font-size:12px;margin:14px 0 22px;color:var(--ink);}
+  .stats b{font-size:15px;}
+  .controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+  button.ctl{font-family:'Space Mono',monospace;font-size:12px;background:var(--white);border:1px solid var(--kraft-dark);color:var(--ink);padding:9px 14px;border-radius:5px;cursor:pointer;letter-spacing:0.5px;}
+  button.ctl:hover{border-color:var(--ink);}
+  button.ctl.primary{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  button.ctl.mark-known{border-color:var(--stamp-green);color:var(--stamp-green);}
+  button.ctl.mark-new{border-color:var(--stamp-red);color:var(--stamp-red);}
+  button.ctl:disabled{opacity:0.4;cursor:not-allowed;}
+  .status-line{text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);margin-bottom:14px;min-height:14px;}
+  .speak-btn{border:none;background:var(--ink);color:var(--white);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 8px rgba(30,51,72,0.3);}
+  .speak-btn:active{transform:scale(0.92);}
+  .speak-row{display:flex;justify-content:center;gap:10px;margin:10px 0;}
+  .toggle-row{display:flex;justify-content:center;align-items:center;gap:6px;font-size:12px;font-family:'Space Mono',monospace;margin-bottom:22px;color:#5a5044;}
+
+  .name-gate{position:fixed;inset:0;background:rgba(30,51,72,0.78);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+  .name-gate.hidden{display:none;}
+  .name-gate-card{background:var(--white);border-radius:10px;padding:32px 26px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+  .name-gate-card h2{font-family:'Oswald',sans-serif;font-size:19px;margin:8px 0 18px;text-transform:none;letter-spacing:0;}
+  .name-gate-card input{width:100%;padding:11px 14px;border:1.5px solid var(--kraft-dark);border-radius:6px;font-family:'Libre Franklin',sans-serif;font-size:15px;margin-bottom:14px;text-align:center;box-sizing:border-box;}
+  .name-gate-card input:focus{outline:2px solid var(--ink);}
+  .student-greet{text-align:center;font-family:'Space Mono',monospace;font-size:11.5px;color:var(--rope);margin:-6px 0 16px;}
+  .student-greet a{color:var(--ink);text-decoration:underline;cursor:pointer;}
+  .history-panel{max-width:420px;margin:0 auto 16px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:8px;padding:12px 16px;font-size:12.5px;}
+  .history-panel .htitle{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rope);margin-bottom:8px;}
+  .history-panel .hrow{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--paper);}
+  .history-panel .hrow:first-of-type{border-top:none;}
+
+
+  .tag-stage{display:flex;justify-content:center;perspective:1400px;margin-bottom:18px;position:relative;}
+  .string{position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:2px;height:34px;background:var(--rope);z-index:0;}
+  .tag{width:100%;max-width:440px;min-height:280px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,.9,.35,1);}
+  .tag.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;background:var(--kraft);border-radius:6px;border:1px solid rgba(30,51,72,0.25);box-shadow:0 10px 24px rgba(30,51,72,0.18), inset 0 0 0 1px rgba(255,255,255,0.15);padding:26px 22px;display:flex;flex-direction:column;clip-path:polygon(14% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 12%);}
+  .face::before{content:"";position:absolute;top:14px;left:14px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #f4f0e4, #b9ac86 60%, #8a7b53);box-shadow:inset 0 0 0 2px rgba(30,51,72,0.35), 0 1px 2px rgba(0,0,0,0.3);}
+  .face.back{transform:rotateY(180deg); background:var(--white);}
+  .tag-id{font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);text-align:right;letter-spacing:1px;}
+  .word-zone{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;}
+  .hanzi-ruby{font-size:clamp(38px,10vw,56px);}
+  .pos{font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px;}
+  .hint{font-size:11px;color:#6b6152;font-family:'Space Mono',monospace;margin-top:6px;}
+  .meaning{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;color:var(--ink);text-align:center;}
+  .example-cn{font-family:'Noto Sans SC',sans-serif;font-size:15px;color:var(--ink);text-align:center;margin-top:12px;line-height:1.5;padding:0 6px;}
+  .example-vi{font-size:12px;color:#6b6152;text-align:center;margin-top:4px;font-style:italic;padding:0 6px;}
+  .stamp{position:absolute;bottom:16px;right:18px;font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;border:2.5px solid;border-radius:4px;padding:3px 8px;transform:rotate(-8deg);opacity:0.85;}
+  .stamp.known{color:var(--stamp-green);border-color:var(--stamp-green);}
+  .stamp.new{color:var(--stamp-red);border-color:var(--stamp-red);}
+  details.add-panel{background:var(--white);border:1px solid var(--kraft-dark);border-radius:8px;padding:4px 16px 16px;margin-bottom:20px;}
+  details.add-panel summary{cursor:pointer;padding:12px 0;font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:14px;color:var(--ink);}
+  .form-grid{display:flex;flex-direction:column;gap:10px;}
+  .form-grid label{font-size:11px;font-family:'Space Mono',monospace;color:var(--rope);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:3px;}
+  .form-grid input, .form-grid select{width:100%;padding:9px 10px;border:1px solid var(--kraft-dark);border-radius:5px;font-family:'Libre Franklin',sans-serif;font-size:14px;background:var(--paper);}
+  .deck-title{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--rope);margin:0 0 10px 2px;}
+  .search-row{margin-bottom:10px;}
+  .search-row input{width:100%;padding:9px 12px;border:1px solid var(--kraft-dark);border-radius:20px;font-family:'Libre Franklin',sans-serif;font-size:13px;background:var(--white);}
+  .deck-grid{display:flex;flex-wrap:wrap;gap:8px;max-height:280px;overflow-y:auto;}
+  .chip{font-family:'Space Mono',monospace;font-size:12px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:20px;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+  .chip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--stamp-red);}
+  .chip.done .dot{background:var(--stamp-green);}
+  .chip .del{opacity:0.5;font-weight:700;padding-left:2px;}
+  .chip .del:hover{opacity:1;color:var(--stamp-red);}
+  .empty{text-align:center;color:#8a7f6c;font-size:13px;padding:30px 0;}
+
+</style>
+</head>
+<body>
+<div class="name-gate hidden" id="nameGateOverlay">
+  <div class="name-gate-card">
+    <div class="eyebrow">HSK1</div>
+    <h2>Nhập tên của bạn để bắt đầu</h2>
+    <input type="text" id="studentNameInput" placeholder="Tên của bạn...">
+    <button class="ctl primary" id="studentNameBtn" style="width:100%;">Bắt đầu học</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Inspection Deck · HSK1 Vocabulary · Phần 6/6</div>
+    <h1>Từ Vựng HSK1 — Phần 6</h1>
+    <div class="sub">Từ 151 đến 157 (7 từ) · Pinyin hiển thị sẵn trên mỗi chữ</div>
+  </header>
+
+  <div class="nav-row">
+    <a class="navchip" href="hsk1-p1.html">Từ vựng P1</a>
+    <a class="navchip" href="hsk1-test-p1.html">Test P1</a>
+    <a class="navchip" href="hsk1-p2.html">Từ vựng P2</a>
+    <a class="navchip" href="hsk1-test-p2.html">Test P2</a>
+    <a class="navchip" href="hsk1-p3.html">Từ vựng P3</a>
+    <a class="navchip" href="hsk1-test-p3.html">Test P3</a>
+    <a class="navchip" href="hsk1-p4.html">Từ vựng P4</a>
+    <a class="navchip" href="hsk1-test-p4.html">Test P4</a>
+    <a class="navchip" href="hsk1-p5.html">Từ vựng P5</a>
+    <a class="navchip" href="hsk1-test-p5.html">Test P5</a>
+    <a class="navchip active" href="hsk1-p6.html">Từ vựng P6</a>
+    <a class="navchip" href="hsk1-test-p6.html">Test P6</a>
+  </div>
+  <div class="student-greet" id="studentGreet"></div>
+
+  <div class="stats">
+    <div>TỔNG THẺ: <b id="statTotal">0</b></div>
+    <div>ĐÃ THUỘC: <b id="statKnown">0</b></div>
+    <div>CẦN ÔN: <b id="statNew">0</b></div>
+  </div>
+
+  <div class="status-line" id="statusLine"></div>
+
+  <div id="cardArea">
+    <div class="tag-stage">
+      <div class="string"></div>
+      <div class="tag" id="tag">
+        <div class="face front">
+          <div class="tag-id" id="tagIdFront">HSK-000</div>
+          <div class="word-zone">
+            <div class="hanzi-ruby ruby-line" id="hanziFront"></div>
+            <div class="pos" id="posFront"></div>
+            <div class="speak-row"><button class="speak-btn" id="speakWordBtn" title="Nghe phát âm">▶</button></div>
+            <div class="hint">chạm để lật · xem nghĩa</div>
+          </div>
+          <div class="stamp new" id="stampFront">Cần ôn</div>
+        </div>
+        <div class="face back">
+          <div class="tag-id" id="tagIdBack">HSK-000</div>
+          <div class="word-zone">
+            <div class="hanzi-ruby ruby-line" id="hanziBack" style="font-size:28px;"></div>
+            <div class="meaning" id="meaningBack">—</div>
+            <div class="example-cn" id="exampleBack"></div>
+            <div class="example-vi" id="exampleMeaningBack"></div>
+            <div class="speak-row"><button class="speak-btn" id="speakWordBtn2" title="Nghe câu ví dụ">▶</button></div>
+          </div>
+          <div class="stamp new" id="stampBack">Cần ôn</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="ctl" id="prevBtn">◀ Trước</button>
+      <button class="ctl primary" id="flipBtn">Lật thẻ</button>
+      <button class="ctl" id="nextBtn">Sau ▶</button>
+    </div>
+    <div class="controls">
+      <button class="ctl mark-known" id="knownBtn">✓ Đã thuộc</button>
+      <button class="ctl mark-new" id="newBtn">↻ Cần ôn</button>
+      <button class="ctl" id="shuffleBtn">⤨ Xáo thẻ</button>
+      <button class="ctl" id="reviewNewBtn">📌 Chỉ ôn từ chưa thuộc</button>
+    </div>
+    <div class="toggle-row">
+      <input type="checkbox" id="slowToggle"> <label for="slowToggle">Nghe chậm</label>
+    </div>
+  </div>
+
+  <details class="add-panel">
+    <summary>+ Thêm từ mới</summary>
+    <div class="form-grid">
+      <div><label for="inWord">Hán tự</label><input id="inWord" placeholder="ví dụ: 谢谢"></div>
+      <div><label for="inPinyin">Pinyin (mỗi âm tiết cách nhau bằng dấu cách)</label><input id="inPinyin" placeholder="ví dụ: xiè xie"></div>
+      <div>
+        <label for="inPos">Loại từ</label>
+        <select id="inPos">
+          <option value="">— chọn —</option>
+          <option value="n.">danh từ (n.)</option>
+          <option value="v.">động từ (v.)</option>
+          <option value="adj.">tính từ (adj.)</option>
+          <option value="adv.">phó từ (adv.)</option>
+          <option value="pron.">đại từ (pron.)</option>
+          <option value="num.">số từ (num.)</option>
+          <option value="mw.">lượng từ (mw.)</option>
+          <option value="particle">trợ từ</option>
+          <option value="phrase">cụm từ</option>
+        </select>
+      </div>
+      <div><label for="inMeaning">Nghĩa tiếng Việt</label><input id="inMeaning" placeholder="ví dụ: cảm ơn"></div>
+      <div><label for="inExample">Câu ví dụ (chữ Hán, không bắt buộc)</label><input id="inExample" placeholder="ví dụ: 谢谢你！"></div>
+      <div><label for="inExampleMeaning">Nghĩa câu ví dụ</label><input id="inExampleMeaning" placeholder="ví dụ: Cảm ơn bạn!"></div>
+      <button class="ctl primary" id="addBtn" style="align-self:flex-start;">+ Thêm vào bộ thẻ</button>
+    </div>
+  </details>
+
+  <div class="deck-title">Từ vựng Phần 6 (7 từ)</div>
+  <div class="search-row"><input type="text" id="searchInput" placeholder="Tìm theo hán tự, pinyin hoặc nghĩa..."></div>
+  <div class="deck-grid" id="deckGrid"></div>
+</div>
+
+<script>
+const SEED = [
+  {word:"中午", pinyin:["zhōng", "wǔ"], pos:"n.", meaning:"buổi trưa", example:"中午我们一起吃饭。", exampleMeaning:"Buổi trưa chúng ta cùng ăn cơm."},
+  {word:"住", pinyin:["zhù"], pos:"v.", meaning:"ở, sống", example:"我住在北京。", exampleMeaning:"Tôi sống ở Bắc Kinh."},
+  {word:"桌子", pinyin:["zhuō", "zi"], pos:"n.", meaning:"cái bàn", example:"这张桌子很大。", exampleMeaning:"Cái bàn này rất to."},
+  {word:"字", pinyin:["zì"], pos:"n.", meaning:"chữ", example:"我在学写字。", exampleMeaning:"Tôi đang học viết chữ."},
+  {word:"昨天", pinyin:["zuó", "tiān"], pos:"n.", meaning:"hôm qua", example:"昨天天气很冷。", exampleMeaning:"Hôm qua trời rất lạnh."},
+  {word:"做", pinyin:["zuò"], pos:"v.", meaning:"làm", example:"你在做什么？", exampleMeaning:"Bạn đang làm gì?"},
+  {word:"坐", pinyin:["zuò"], pos:"v.", meaning:"ngồi", example:"请坐。", exampleMeaning:"Mời ngồi."}
+];
+
+function rubyHTML(word, pinyinArr){
+  const chars = Array.from(word);
+  return chars.map((ch,i) => `<ruby>${ch}<rt>${pinyinArr[i] || ''}</rt></ruby>`).join('');
+}
+function plainPinyin(pinyinArr){ return pinyinArr.join(' '); }
+
+let cards = [];
+let order = [];
+let current = 0;
+let flipped = false;
+let filterUnknownOnly = false;
+let searchTerm = '';
+
+const $ = (id) => document.getElementById(id);
+const statusLine = $('statusLine');
+
+function setStatus(msg, timeout=2200){
+  statusLine.textContent = msg;
+  if(timeout){ setTimeout(()=>{ if(statusLine.textContent===msg) statusLine.textContent=''; }, timeout); }
+}
+
+function slugName(n){ return n.trim().toLowerCase().replace(/\s+/g,'_'); }
+function getStudentName(){ return localStorage.getItem('hsk1_studentName') || ''; }
+function setStudentName(n){ localStorage.setItem('hsk1_studentName', n); }
+function keyFor(base){
+  const n = getStudentName();
+  return n ? base + '__' + slugName(n) : base;
+}
+function renderGreeting(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const n = getStudentName();
+  el.innerHTML = n ? ('Xin chào, <b>' + n + '</b> · <a id="switchStudentLink">Không phải bạn?</a>') : '';
+  const link = document.getElementById('switchStudentLink');
+  if(link) link.addEventListener('click', () => {
+    localStorage.removeItem('hsk1_studentName');
+    window.location.reload();
+  });
+}
+function ensureStudentGate(onReady){
+  const existing = getStudentName();
+  if(existing){ onReady(existing); return; }
+  const overlay = document.getElementById('nameGateOverlay');
+  overlay.classList.remove('hidden');
+  const btn = document.getElementById('studentNameBtn');
+  const input = document.getElementById('studentNameInput');
+  const submit = () => {
+    const val = input.value.trim();
+    if(!val) return;
+    setStudentName(val);
+    overlay.classList.add('hidden');
+    onReady(val);
+  };
+  btn.addEventListener('click', submit);
+  input.addEventListener('keydown', e => { if(e.key==='Enter') submit(); });
+  setTimeout(()=>input.focus(), 50);
+}
+
+async function loadCards(){
+  try{
+    const raw = localStorage.getItem(keyFor('hsk1cards_p6'));
+    const parsed = raw ? JSON.parse(raw) : null;
+    if(parsed && parsed.cards && parsed.cards.length){ cards = parsed.cards; current = parsed.current || 0; }
+    else{ cards = []; current = 0; }
+  }catch(e){ cards = []; current = 0; }
+  if(!cards || cards.length === 0){
+    cards = SEED.map((c,i)=>({id:'c'+Date.now()+i, status:'new', ...c}));
+    current = 0;
+    await saveCards();
+  }
+  applyFilter(true);
+  render();
+}
+
+async function saveCards(){
+  try{ localStorage.setItem(keyFor('hsk1cards_p6'), JSON.stringify({current, cards})); }
+  catch(e){ setStatus('Loi khi luu du lieu.'); }
+}
+
+function applyFilter(keepCurrent){
+  let idxs = cards.map((_,i)=>i);
+  if(filterUnknownOnly) idxs = idxs.filter(i => cards[i].status !== 'known');
+  if(searchTerm){
+    const t = searchTerm.toLowerCase();
+    idxs = idxs.filter(i => {
+      const c = cards[i];
+      return c.word.includes(searchTerm) || plainPinyin(c.pinyin).toLowerCase().includes(t) || (c.meaning||'').toLowerCase().includes(t);
+    });
+  }
+  order = idxs;
+  if(!keepCurrent) current = 0;
+  else if(current >= order.length) current = 0;
+}
+
+function render(){
+  const total = cards.length;
+  const known = cards.filter(c=>c.status==='known').length;
+  $('statTotal').textContent = total;
+  $('statKnown').textContent = known;
+  $('statNew').textContent = total - known;
+
+  document.getElementById('cardArea').style.display = order.length ? '' : 'none';
+  if(order.length === 0){
+    if(!document.getElementById('emptyMsg')){
+      const p = document.createElement('div'); p.className='empty'; p.id='emptyMsg';
+      p.textContent = 'Khong co the nao khop.';
+      $('cardArea').after(p);
+    }
+    renderDeck();
+    return;
+  }
+  const existingEmpty = document.getElementById('emptyMsg');
+  if(existingEmpty) existingEmpty.remove();
+
+  if(current >= order.length) current = 0;
+  const idx = order[current];
+  const c = cards[idx];
+  const tagNum = String(idx+1).padStart(3,'0');
+
+  $('tagIdFront').textContent = 'HSK-'+tagNum;
+  $('tagIdBack').textContent = 'HSK-'+tagNum;
+  $('hanziFront').innerHTML = rubyHTML(c.word, c.pinyin);
+  $('hanziBack').innerHTML = rubyHTML(c.word, c.pinyin);
+  $('posFront').textContent = c.pos || '';
+  $('meaningBack').textContent = c.meaning || '';
+  $('exampleBack').textContent = c.example || '';
+  $('exampleMeaningBack').textContent = c.exampleMeaning || '';
+
+  const known2 = c.status === 'known';
+  [$('stampFront'), $('stampBack')].forEach(el=>{
+    el.textContent = known2 ? 'Da thuoc' : 'Can on';
+    el.classList.toggle('known', known2);
+    el.classList.toggle('new', !known2);
+  });
+
+  $('tag').classList.toggle('flipped', flipped);
+  renderDeck();
+}
+
+function renderDeck(){
+  const grid = $('deckGrid');
+  grid.innerHTML = '';
+  order.forEach((i) => {
+    const c = cards[i];
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (c.status==='known' ? ' done':'') + (order[current]===i ? ' active':'');
+    const dot = document.createElement('span'); dot.className='dot';
+    const label = document.createElement('span'); label.textContent = c.word + ' (' + plainPinyin(c.pinyin) + ')';
+    const del = document.createElement('span'); del.className='del'; del.textContent='x';
+    del.title = 'Xoa the';
+    del.addEventListener('click', (e)=>{ e.stopPropagation(); removeCard(i); });
+    chip.appendChild(dot); chip.appendChild(label); chip.appendChild(del);
+    chip.addEventListener('click', ()=>{
+      const pos = order.indexOf(i);
+      current = pos >= 0 ? pos : 0;
+      flipped = false;
+      render();
+      saveCards();
+    });
+    grid.appendChild(chip);
+  });
+}
+
+const PREFERRED_VOICE_NAME = 'Google 普通话（中国大陆）';
+let zhVoice = null;
+let preferredVoice = null;
+function normVoiceName(s){
+  return (s || '').replace(/\s+/g,'').replace(/[（(]/g,'(').replace(/[）)]/g,')');
+}
+function pickZhVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const voices = window.speechSynthesis.getVoices();
+  const targetNorm = normVoiceName(PREFERRED_VOICE_NAME);
+  preferredVoice =
+    voices.find(v => normVoiceName(v.name) === targetNorm) ||
+    voices.find(v => /普通话/.test(v.name || '') && /中国大陆|中國大陸/.test(v.name || '')) ||
+    null;
+  zhVoice =
+    preferredVoice ||
+    voices.find(v => v.lang === 'zh-CN') ||
+    voices.find(v => v.lang === 'cmn-Hans-CN') ||
+    voices.find(v => v.lang && /zh[-_]?(cn|hans)/i.test(v.lang)) ||
+    voices.find(v => v.lang && v.lang.toLowerCase().startsWith('zh')) ||
+    voices.find(v => /chinese|mandarin|普通话|中文|國語/i.test(v.name || '')) ||
+    null;
+}
+if('speechSynthesis' in window){ pickZhVoice(); window.speechSynthesis.onvoiceschanged = pickZhVoice; }
+
+function speakWithBrowserVoice(text, rate){
+  if(!('speechSynthesis' in window)) return false;
+  if(!zhVoice) pickZhVoice();
+  if(!zhVoice) return false;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = zhVoice;
+  u.lang = zhVoice.lang || 'zh-CN';
+  u.rate = rate;
+  window.speechSynthesis.speak(u);
+  setStatus('Giong: ' + zhVoice.name, 1600);
+  return true;
+}
+function speakWithGoogleTTS(text, rate, onFail){
+  const ttsUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(text) + '&tl=zh-CN&client=tw-ob';
+  let failed = false;
+  const audio = new Audio(ttsUrl);
+  audio.playbackRate = rate;
+  const fail = () => { if(failed) return; failed = true; onFail(); };
+  audio.addEventListener('error', fail);
+  audio.play().then(()=>{ setStatus('Giong: Google Translate TTS (online)', 1600); }).catch(fail);
+}
+function speak(text, slow){
+  const rate = slow ? 0.6 : 0.95;
+  if(!zhVoice) pickZhVoice();
+  if(preferredVoice){ speakWithBrowserVoice(text, rate); return; }
+  speakWithGoogleTTS(text, rate, () => {
+    const ok = speakWithBrowserVoice(text, rate);
+    if(!ok) setStatus('Khong the phat am: khong co mang va may khong co giong tieng Trung.');
+  });
+}
+
+function speakCurrentWord(){ const c = cards[order[current]]; if(c) speak(c.word, $('slowToggle').checked); }
+function speakCurrentExample(){
+  const c = cards[order[current]];
+  if(!c) return;
+  if(c.example){ speak(c.example, $('slowToggle').checked); }
+  else{ speak(c.word, $('slowToggle').checked); setStatus('Tu nay chua co cau vi du, doc lai tu.'); }
+}
+$('speakWordBtn').addEventListener('click', speakCurrentWord);
+$('speakWordBtn2').addEventListener('click', speakCurrentExample);
+
+$('tag').addEventListener('click', (e)=>{ if(e.target.closest('.speak-btn')) return; flipped=!flipped; render(); });
+$('flipBtn').addEventListener('click', ()=>{ flipped=!flipped; render(); });
+$('nextBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current+1)%order.length; flipped=false; render(); saveCards(); });
+$('prevBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current-1+order.length)%order.length; flipped=false; render(); saveCards(); });
+$('shuffleBtn').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  current=0; flipped=false; render(); setStatus('Da xao bo the.');
+});
+$('reviewNewBtn').addEventListener('click', ()=>{
+  filterUnknownOnly = !filterUnknownOnly; applyFilter(); render();
+  setStatus(filterUnknownOnly ? 'Dang chi hien thi tu can on.' : 'Hien thi tat ca tu.');
+});
+$('searchInput').addEventListener('input', (e)=>{ searchTerm=e.target.value.trim(); applyFilter(); render(); });
+$('knownBtn').addEventListener('click', async ()=>{ const idx=order[current]; if(idx===undefined) return; cards[idx].status='known'; await saveCards(); render(); });
+$('newBtn').addEventListener('click', async ()=>{ const idx=order[current]; if(idx===undefined) return; cards[idx].status='new'; await saveCards(); render(); });
+
+async function removeCard(idx){ cards.splice(idx,1); applyFilter(); await saveCards(); render(); }
+
+$('addBtn').addEventListener('click', async ()=>{
+  const word = $('inWord').value.trim();
+  const pinyinStr = $('inPinyin').value.trim();
+  const pos = $('inPos').value;
+  const meaning = $('inMeaning').value.trim();
+  const example = $('inExample').value.trim();
+  const exampleMeaning = $('inExampleMeaning').value.trim();
+  if(!word || !meaning || !pinyinStr){ setStatus('Vui long nhap du han tu, pinyin va nghia.'); return; }
+  const pinyin = pinyinStr.split(/\s+/);
+  cards.push({id:'c'+Date.now(), word, pinyin, pos, meaning, example, exampleMeaning, status:'new'});
+  applyFilter(); current = order.length - 1; flipped = false;
+  await saveCards(); render();
+  $('inWord').value=''; $('inPinyin').value=''; $('inPos').value=''; $('inMeaning').value=''; $('inExample').value=''; $('inExampleMeaning').value='';
+  setStatus('Da them the "'+word+'".');
+});
+
+ensureStudentGate((name) => {
+  renderGreeting('studentGreet');
+  loadCards();
+});
+</script>
+</body>
+</html>
