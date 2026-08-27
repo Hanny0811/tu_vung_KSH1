@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ôn tập từ vựng HSK1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Libre+Franklin:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper: #F2ECDD; --kraft: #D9C7A0; --kraft-dark: #C7B285; --ink: #1E3348;
+    --rope: #8B6F47; --stamp-red: #B23A2E; --stamp-green: #3F6E4E; --white: #FBF8F1;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);background-image:radial-gradient(circle at 1px 1px, rgba(30,51,72,0.06) 1px, transparent 0);background-size:22px 22px;font-family:'Libre Franklin', sans-serif;color:var(--ink);min-height:100vh;padding:28px 16px 60px;}
+  .wrap{max-width:640px;margin:0 auto;}
+  header{text-align:center;margin-bottom:16px;}
+  .eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--rope);text-transform:uppercase;}
+  h1{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:26px;margin:4px 0 2px;}
+  .sub{font-size:13px;color:#5a5044;}
+  .nav-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:18px;}
+  .navchip{font-family:'Space Mono',monospace;font-size:11px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:20px;padding:5px 10px;text-decoration:none;color:var(--ink);}
+  .navchip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .ruby-line{font-family:'Noto Sans SC',sans-serif;line-height:2.6;}
+  .ruby-line ruby{margin:0 1px;}
+  .ruby-line rt{font-family:'Libre Franklin',sans-serif;font-size:0.42em;color:var(--rope);font-weight:600;}
+  .stats{display:flex;justify-content:center;gap:18px;font-family:'Space Mono',monospace;font-size:12px;margin:14px 0 22px;color:var(--ink);}
+  .stats b{font-size:15px;}
+  .controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+  button.ctl{font-family:'Space Mono',monospace;font-size:12px;background:var(--white);border:1px solid var(--kraft-dark);color:var(--ink);padding:9px 14px;border-radius:5px;cursor:pointer;letter-spacing:0.5px;}
+  button.ctl:hover{border-color:var(--ink);}
+  button.ctl.primary{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  button.ctl.mark-known{border-color:var(--stamp-green);color:var(--stamp-green);}
+  button.ctl.mark-new{border-color:var(--stamp-red);color:var(--stamp-red);}
+  button.ctl:disabled{opacity:0.4;cursor:not-allowed;}
+  .status-line{text-align:center;font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);margin-bottom:14px;min-height:14px;}
+  .speak-btn{border:none;background:var(--ink);color:var(--white);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 8px rgba(30,51,72,0.3);}
+  .speak-btn:active{transform:scale(0.92);}
+  .speak-row{display:flex;justify-content:center;gap:10px;margin:10px 0;}
+  .toggle-row{display:flex;justify-content:center;align-items:center;gap:6px;font-size:12px;font-family:'Space Mono',monospace;margin-bottom:22px;color:#5a5044;}
+
+  .tag-stage{display:flex;justify-content:center;perspective:1400px;margin-bottom:18px;position:relative;}
+  .string{position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:2px;height:34px;background:var(--rope);z-index:0;}
+  .tag{width:100%;max-width:440px;min-height:280px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.22,.9,.35,1);}
+  .tag.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;background:var(--kraft);border-radius:6px;border:1px solid rgba(30,51,72,0.25);box-shadow:0 10px 24px rgba(30,51,72,0.18), inset 0 0 0 1px rgba(255,255,255,0.15);padding:26px 22px;display:flex;flex-direction:column;clip-path:polygon(14% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 12%);}
+  .face::before{content:"";position:absolute;top:14px;left:14px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #f4f0e4, #b9ac86 60%, #8a7b53);box-shadow:inset 0 0 0 2px rgba(30,51,72,0.35), 0 1px 2px rgba(0,0,0,0.3);}
+  .face.back{transform:rotateY(180deg); background:var(--white);}
+  .tag-id{font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);text-align:right;letter-spacing:1px;}
+  .word-zone{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;}
+  .hanzi-ruby{font-size:clamp(38px,10vw,56px);}
+  .pos{font-family:'Space Mono',monospace;font-size:11px;color:var(--rope);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px;}
+  .hint{font-size:11px;color:#6b6152;font-family:'Space Mono',monospace;margin-top:6px;}
+  .meaning{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;color:var(--ink);text-align:center;}
+  .stamp{position:absolute;bottom:16px;right:18px;font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;border:2.5px solid;border-radius:4px;padding:3px 8px;transform:rotate(-8deg);opacity:0.85;}
+  .stamp.known{color:var(--stamp-green);border-color:var(--stamp-green);}
+  .stamp.new{color:var(--stamp-red);border-color:var(--stamp-red);}
+  details.add-panel{background:var(--white);border:1px solid var(--kraft-dark);border-radius:8px;padding:4px 16px 16px;margin-bottom:20px;}
+  details.add-panel summary{cursor:pointer;padding:12px 0;font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:14px;color:var(--ink);}
+  .form-grid{display:flex;flex-direction:column;gap:10px;}
+  .form-grid label{font-size:11px;font-family:'Space Mono',monospace;color:var(--rope);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:3px;}
+  .form-grid input, .form-grid select{width:100%;padding:9px 10px;border:1px solid var(--kraft-dark);border-radius:5px;font-family:'Libre Franklin',sans-serif;font-size:14px;background:var(--paper);}
+  .deck-title{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--rope);margin:0 0 10px 2px;}
+  .search-row{margin-bottom:10px;}
+  .search-row input{width:100%;padding:9px 12px;border:1px solid var(--kraft-dark);border-radius:20px;font-family:'Libre Franklin',sans-serif;font-size:13px;background:var(--white);}
+  .deck-grid{display:flex;flex-wrap:wrap;gap:8px;max-height:280px;overflow-y:auto;}
+  .chip{font-family:'Space Mono',monospace;font-size:12px;background:var(--white);border:1px solid var(--kraft-dark);border-radius:20px;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+  .chip.active{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--stamp-red);}
+  .chip.done .dot{background:var(--stamp-green);}
+  .chip .del{opacity:0.5;font-weight:700;padding-left:2px;}
+  .chip .del:hover{opacity:1;color:var(--stamp-red);}
+  .empty{text-align:center;color:#8a7f6c;font-size:13px;padding:30px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Inspection Deck · HSK1 Vocabulary</div>
+    <h1>Ôn Tập Từ Vựng HSK1</h1>
+    <div class="sub">Pinyin hiển thị sẵn trên mỗi chữ · Bấm loa để nghe · Bấm thẻ để xem nghĩa</div>
+  </header>
+
+  <div class="nav-row">
+    <a class="navchip active" href="hsk1.html">Từ vựng</a>
+    <a class="navchip" href="hsk1-test1.html">Test nghe điền từ</a>
+  </div>
+
+  <div class="stats">
+    <div>TỔNG THẺ: <b id="statTotal">0</b></div>
+    <div>ĐÃ THUỘC: <b id="statKnown">0</b></div>
+    <div>CẦN ÔN: <b id="statNew">0</b></div>
+  </div>
+
+  <div class="status-line" id="statusLine"></div>
+
+  <div id="cardArea">
+    <div class="tag-stage">
+      <div class="string"></div>
+      <div class="tag" id="tag">
+        <div class="face front">
+          <div class="tag-id" id="tagIdFront">HSK-000</div>
+          <div class="word-zone">
+            <div class="hanzi-ruby ruby-line" id="hanziFront"></div>
+            <div class="pos" id="posFront"></div>
+            <div class="speak-row"><button class="speak-btn" id="speakWordBtn" title="Nghe phát âm">▶</button></div>
+            <div class="hint">chạm để lật · xem nghĩa</div>
+          </div>
+          <div class="stamp new" id="stampFront">Cần ôn</div>
+        </div>
+        <div class="face back">
+          <div class="tag-id" id="tagIdBack">HSK-000</div>
+          <div class="word-zone">
+            <div class="hanzi-ruby ruby-line" id="hanziBack" style="font-size:28px;"></div>
+            <div class="meaning" id="meaningBack">—</div>
+            <div class="speak-row"><button class="speak-btn" id="speakWordBtn2" title="Nghe phát âm">▶</button></div>
+          </div>
+          <div class="stamp new" id="stampBack">Cần ôn</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="ctl" id="prevBtn">◀ Trước</button>
+      <button class="ctl primary" id="flipBtn">Lật thẻ</button>
+      <button class="ctl" id="nextBtn">Sau ▶</button>
+    </div>
+    <div class="controls">
+      <button class="ctl mark-known" id="knownBtn">✓ Đã thuộc</button>
+      <button class="ctl mark-new" id="newBtn">↻ Cần ôn</button>
+      <button class="ctl" id="shuffleBtn">⤨ Xáo thẻ</button>
+      <button class="ctl" id="reviewNewBtn">📌 Chỉ ôn từ chưa thuộc</button>
+    </div>
+    <div class="toggle-row">
+      <input type="checkbox" id="slowToggle"> <label for="slowToggle">Nghe chậm</label>
+    </div>
+  </div>
+
+  <details class="add-panel">
+    <summary>+ Thêm từ mới</summary>
+    <div class="form-grid">
+      <div><label for="inWord">Hán tự</label><input id="inWord" placeholder="ví dụ: 谢谢"></div>
+      <div><label for="inPinyin">Pinyin (mỗi âm tiết cách nhau bằng dấu cách, theo đúng số chữ)</label><input id="inPinyin" placeholder="ví dụ: xiè xie"></div>
+      <div>
+        <label for="inPos">Loại từ</label>
+        <select id="inPos">
+          <option value="">— chọn —</option>
+          <option value="n.">danh từ (n.)</option>
+          <option value="v.">động từ (v.)</option>
+          <option value="adj.">tính từ (adj.)</option>
+          <option value="adv.">phó từ (adv.)</option>
+          <option value="pron.">đại từ (pron.)</option>
+          <option value="num.">số từ (num.)</option>
+          <option value="mw.">lượng từ (mw.)</option>
+          <option value="particle">trợ từ</option>
+          <option value="phrase">cụm từ</option>
+        </select>
+      </div>
+      <div><label for="inMeaning">Nghĩa tiếng Việt</label><input id="inMeaning" placeholder="ví dụ: cảm ơn"></div>
+      <button class="ctl primary" id="addBtn" style="align-self:flex-start;">+ Thêm vào bộ thẻ</button>
+    </div>
+  </details>
+
+  <div class="deck-title">Toàn bộ từ vựng (157 từ)</div>
+  <div class="search-row"><input type="text" id="searchInput" placeholder="Tìm theo hán tự, pinyin hoặc nghĩa..."></div>
+  <div class="deck-grid" id="deckGrid"></div>
+</div>
+
+<script>
+const SEED = [
+  {word:"爱", pinyin:["ài"], pos:"v.", meaning:"yêu, yêu thích"},
+  {word:"八", pinyin:["bā"], pos:"num.", meaning:"số tám"},
+  {word:"爸爸", pinyin:["bà", "ba"], pos:"n.", meaning:"bố, ba"},
+  {word:"杯子", pinyin:["bēi", "zi"], pos:"n.", meaning:"cái cốc, cái ly"},
+  {word:"北京", pinyin:["běi", "jīng"], pos:"n.", meaning:"Bắc Kinh"},
+  {word:"本", pinyin:["běn"], pos:"mw.", meaning:"(lượng từ cho sách, vở)"},
+  {word:"不", pinyin:["bù"], pos:"adv.", meaning:"không"},
+  {word:"不客气", pinyin:["bù", "kè", "qi"], pos:"phrase", meaning:"không có gì (đáp lại lời cảm ơn)"},
+  {word:"菜", pinyin:["cài"], pos:"n.", meaning:"món ăn, rau"},
+  {word:"茶", pinyin:["chá"], pos:"n.", meaning:"trà"},
+  {word:"吃", pinyin:["chī"], pos:"v.", meaning:"ăn"},
+  {word:"出租车", pinyin:["chū", "zū", "chē"], pos:"n.", meaning:"xe taxi"},
+  {word:"打电话", pinyin:["dǎ", "diàn", "huà"], pos:"phrase", meaning:"gọi điện thoại"},
+  {word:"大", pinyin:["dà"], pos:"adj.", meaning:"to, lớn"},
+  {word:"的", pinyin:["de"], pos:"particle", meaning:"trợ từ sở hữu (của)"},
+  {word:"点", pinyin:["diǎn"], pos:"mw.", meaning:"giờ, chấm, một chút"},
+  {word:"电脑", pinyin:["diàn", "nǎo"], pos:"n.", meaning:"máy tính"},
+  {word:"电视", pinyin:["diàn", "shì"], pos:"n.", meaning:"tivi"},
+  {word:"电影", pinyin:["diàn", "yǐng"], pos:"n.", meaning:"phim"},
+  {word:"东西", pinyin:["dōng", "xi"], pos:"n.", meaning:"đồ vật"},
+  {word:"都", pinyin:["dōu"], pos:"adv.", meaning:"đều"},
+  {word:"读", pinyin:["dú"], pos:"v.", meaning:"đọc"},
+  {word:"对不起", pinyin:["duì", "bu", "qǐ"], pos:"phrase", meaning:"xin lỗi"},
+  {word:"多", pinyin:["duō"], pos:"adj.", meaning:"nhiều"},
+  {word:"多少", pinyin:["duō", "shao"], pos:"pron.", meaning:"bao nhiêu"},
+  {word:"儿子", pinyin:["ér", "zi"], pos:"n.", meaning:"con trai"},
+  {word:"二", pinyin:["èr"], pos:"num.", meaning:"số hai"},
+  {word:"饭店", pinyin:["fàn", "diàn"], pos:"n.", meaning:"nhà hàng, khách sạn"},
+  {word:"飞机", pinyin:["fēi", "jī"], pos:"n.", meaning:"máy bay"},
+  {word:"分钟", pinyin:["fēn", "zhōng"], pos:"mw.", meaning:"phút"},
+  {word:"高兴", pinyin:["gāo", "xìng"], pos:"adj.", meaning:"vui, vui mừng"},
+  {word:"个", pinyin:["gè"], pos:"mw.", meaning:"(lượng từ chung)"},
+  {word:"工作", pinyin:["gōng", "zuò"], pos:"v./n.", meaning:"làm việc, công việc"},
+  {word:"汉语", pinyin:["Hàn", "yǔ"], pos:"n.", meaning:"tiếng Hán, tiếng Trung"},
+  {word:"好", pinyin:["hǎo"], pos:"adj.", meaning:"tốt, khỏe"},
+  {word:"号", pinyin:["hào"], pos:"n.", meaning:"số, ngày (trong tháng)"},
+  {word:"喝", pinyin:["hē"], pos:"v.", meaning:"uống"},
+  {word:"和", pinyin:["hé"], pos:"conj.", meaning:"và"},
+  {word:"很", pinyin:["hěn"], pos:"adv.", meaning:"rất"},
+  {word:"后面", pinyin:["hòu", "miàn"], pos:"n.", meaning:"phía sau"},
+  {word:"回", pinyin:["huí"], pos:"v.", meaning:"trở về"},
+  {word:"会", pinyin:["huì"], pos:"v.", meaning:"biết, sẽ"},
+  {word:"几", pinyin:["jǐ"], pos:"pron.", meaning:"mấy"},
+  {word:"家", pinyin:["jiā"], pos:"n.", meaning:"nhà"},
+  {word:"叫", pinyin:["jiào"], pos:"v.", meaning:"gọi là, tên là"},
+  {word:"今天", pinyin:["jīn", "tiān"], pos:"n.", meaning:"hôm nay"},
+  {word:"九", pinyin:["jiǔ"], pos:"num.", meaning:"số chín"},
+  {word:"开", pinyin:["kāi"], pos:"v.", meaning:"mở, lái (xe)"},
+  {word:"看", pinyin:["kàn"], pos:"v.", meaning:"xem, nhìn"},
+  {word:"看见", pinyin:["kàn", "jiàn"], pos:"v.", meaning:"nhìn thấy"},
+  {word:"块", pinyin:["kuài"], pos:"mw.", meaning:"đồng (tiền), miếng"},
+  {word:"来", pinyin:["lái"], pos:"v.", meaning:"đến"},
+  {word:"老师", pinyin:["lǎo", "shī"], pos:"n.", meaning:"giáo viên"},
+  {word:"了", pinyin:["le"], pos:"particle", meaning:"trợ từ (đã, rồi)"},
+  {word:"冷", pinyin:["lěng"], pos:"adj.", meaning:"lạnh"},
+  {word:"里", pinyin:["lǐ"], pos:"n.", meaning:"bên trong"},
+  {word:"六", pinyin:["liù"], pos:"num.", meaning:"số sáu"},
+  {word:"妈妈", pinyin:["mā", "ma"], pos:"n.", meaning:"mẹ"},
+  {word:"吗", pinyin:["ma"], pos:"particle", meaning:"trợ từ nghi vấn"},
+  {word:"买", pinyin:["mǎi"], pos:"v.", meaning:"mua"},
+  {word:"猫", pinyin:["māo"], pos:"n.", meaning:"con mèo"},
+  {word:"没关系", pinyin:["méi", "guān", "xi"], pos:"phrase", meaning:"không sao đâu"},
+  {word:"没有", pinyin:["méi", "yǒu"], pos:"v.", meaning:"không có"},
+  {word:"米饭", pinyin:["mǐ", "fàn"], pos:"n.", meaning:"cơm"},
+  {word:"明天", pinyin:["míng", "tiān"], pos:"n.", meaning:"ngày mai"},
+  {word:"名字", pinyin:["míng", "zi"], pos:"n.", meaning:"tên"},
+  {word:"哪", pinyin:["nǎ"], pos:"pron.", meaning:"nào"},
+  {word:"哪儿", pinyin:["nǎ", "r"], pos:"pron.", meaning:"ở đâu"},
+  {word:"那", pinyin:["nà"], pos:"pron.", meaning:"đó, kia"},
+  {word:"呢", pinyin:["ne"], pos:"particle", meaning:"trợ từ (thì sao, nhỉ)"},
+  {word:"能", pinyin:["néng"], pos:"v.", meaning:"có thể"},
+  {word:"你", pinyin:["nǐ"], pos:"pron.", meaning:"bạn"},
+  {word:"年", pinyin:["nián"], pos:"n.", meaning:"năm"},
+  {word:"女儿", pinyin:["nǚ", "ér"], pos:"n.", meaning:"con gái"},
+  {word:"朋友", pinyin:["péng", "you"], pos:"n.", meaning:"bạn bè"},
+  {word:"漂亮", pinyin:["piào", "liang"], pos:"adj.", meaning:"xinh đẹp"},
+  {word:"苹果", pinyin:["píng", "guǒ"], pos:"n.", meaning:"táo"},
+  {word:"七", pinyin:["qī"], pos:"num.", meaning:"số bảy"},
+  {word:"前面", pinyin:["qián", "miàn"], pos:"n.", meaning:"phía trước"},
+  {word:"钱", pinyin:["qián"], pos:"n.", meaning:"tiền"},
+  {word:"请", pinyin:["qǐng"], pos:"v.", meaning:"mời, xin"},
+  {word:"去", pinyin:["qù"], pos:"v.", meaning:"đi"},
+  {word:"热", pinyin:["rè"], pos:"adj.", meaning:"nóng"},
+  {word:"人", pinyin:["rén"], pos:"n.", meaning:"người"},
+  {word:"认识", pinyin:["rèn", "shi"], pos:"v.", meaning:"quen biết"},
+  {word:"三", pinyin:["sān"], pos:"num.", meaning:"số ba"},
+  {word:"商店", pinyin:["shāng", "diàn"], pos:"n.", meaning:"cửa hàng"},
+  {word:"上", pinyin:["shàng"], pos:"n./v.", meaning:"trên, lên"},
+  {word:"上午", pinyin:["shàng", "wǔ"], pos:"n.", meaning:"buổi sáng"},
+  {word:"少", pinyin:["shǎo"], pos:"adj.", meaning:"ít"},
+  {word:"谁", pinyin:["shéi"], pos:"pron.", meaning:"ai"},
+  {word:"什么", pinyin:["shén", "me"], pos:"pron.", meaning:"cái gì"},
+  {word:"十", pinyin:["shí"], pos:"num.", meaning:"số mười"},
+  {word:"时候", pinyin:["shí", "hou"], pos:"n.", meaning:"lúc, thời điểm"},
+  {word:"是", pinyin:["shì"], pos:"v.", meaning:"là"},
+  {word:"书", pinyin:["shū"], pos:"n.", meaning:"sách"},
+  {word:"水", pinyin:["shuǐ"], pos:"n.", meaning:"nước"},
+  {word:"水果", pinyin:["shuǐ", "guǒ"], pos:"n.", meaning:"trái cây"},
+  {word:"睡觉", pinyin:["shuì", "jiào"], pos:"v.", meaning:"ngủ"},
+  {word:"说", pinyin:["shuō"], pos:"v.", meaning:"nói"},
+  {word:"四", pinyin:["sì"], pos:"num.", meaning:"số bốn"},
+  {word:"岁", pinyin:["suì"], pos:"mw.", meaning:"tuổi"},
+  {word:"他", pinyin:["tā"], pos:"pron.", meaning:"anh ấy"},
+  {word:"她", pinyin:["tā"], pos:"pron.", meaning:"cô ấy"},
+  {word:"太", pinyin:["tài"], pos:"adv.", meaning:"quá"},
+  {word:"天气", pinyin:["tiān", "qì"], pos:"n.", meaning:"thời tiết"},
+  {word:"天", pinyin:["tiān"], pos:"n.", meaning:"trời, ngày"},
+  {word:"听", pinyin:["tīng"], pos:"v.", meaning:"nghe"},
+  {word:"同学", pinyin:["tóng", "xué"], pos:"n.", meaning:"bạn học"},
+  {word:"喂", pinyin:["wèi"], pos:"interj.", meaning:"alô"},
+  {word:"我", pinyin:["wǒ"], pos:"pron.", meaning:"tôi"},
+  {word:"我们", pinyin:["wǒ", "men"], pos:"pron.", meaning:"chúng tôi"},
+  {word:"五", pinyin:["wǔ"], pos:"num.", meaning:"số năm"},
+  {word:"喜欢", pinyin:["xǐ", "huan"], pos:"v.", meaning:"thích"},
+  {word:"下", pinyin:["xià"], pos:"n./v.", meaning:"dưới, xuống"},
+  {word:"下午", pinyin:["xià", "wǔ"], pos:"n.", meaning:"buổi chiều"},
+  {word:"下雨", pinyin:["xià", "yǔ"], pos:"v.", meaning:"trời mưa"},
+  {word:"先生", pinyin:["xiān", "sheng"], pos:"n.", meaning:"ông, tiên sinh"},
+  {word:"现在", pinyin:["xiàn", "zài"], pos:"n.", meaning:"bây giờ"},
+  {word:"想", pinyin:["xiǎng"], pos:"v.", meaning:"muốn, nghĩ"},
+  {word:"小", pinyin:["xiǎo"], pos:"adj.", meaning:"nhỏ"},
+  {word:"小姐", pinyin:["xiǎo", "jiě"], pos:"n.", meaning:"cô, tiểu thư"},
+  {word:"些", pinyin:["xiē"], pos:"mw.", meaning:"một vài, một số"},
+  {word:"谢谢", pinyin:["xiè", "xie"], pos:"v.", meaning:"cảm ơn"},
+  {word:"星期", pinyin:["xīng", "qī"], pos:"n.", meaning:"tuần"},
+  {word:"学生", pinyin:["xué", "sheng"], pos:"n.", meaning:"học sinh"},
+  {word:"学习", pinyin:["xué", "xí"], pos:"v.", meaning:"học tập"},
+  {word:"学校", pinyin:["xué", "xiào"], pos:"n.", meaning:"trường học"},
+  {word:"一", pinyin:["yī"], pos:"num.", meaning:"số một"},
+  {word:"一点儿", pinyin:["yì", "diǎn", "r"], pos:"adv.", meaning:"một chút"},
+  {word:"衣服", pinyin:["yī", "fu"], pos:"n.", meaning:"quần áo"},
+  {word:"医生", pinyin:["yī", "shēng"], pos:"n.", meaning:"bác sĩ"},
+  {word:"医院", pinyin:["yī", "yuàn"], pos:"n.", meaning:"bệnh viện"},
+  {word:"一下", pinyin:["yí", "xià"], pos:"phrase", meaning:"một chút, thử xem"},
+  {word:"椅子", pinyin:["yǐ", "zi"], pos:"n.", meaning:"cái ghế"},
+  {word:"一起", pinyin:["yì", "qǐ"], pos:"adv.", meaning:"cùng nhau"},
+  {word:"因为", pinyin:["yīn", "wèi"], pos:"conj.", meaning:"vì, bởi vì"},
+  {word:"阴", pinyin:["yīn"], pos:"adj.", meaning:"âm u (trời)"},
+  {word:"银行", pinyin:["yín", "háng"], pos:"n.", meaning:"ngân hàng"},
+  {word:"应该", pinyin:["yīng", "gāi"], pos:"v.", meaning:"nên, phải"},
+  {word:"用", pinyin:["yòng"], pos:"v.", meaning:"dùng"},
+  {word:"有", pinyin:["yǒu"], pos:"v.", meaning:"có"},
+  {word:"月", pinyin:["yuè"], pos:"n.", meaning:"tháng"},
+  {word:"再见", pinyin:["zài", "jiàn"], pos:"phrase", meaning:"tạm biệt"},
+  {word:"在", pinyin:["zài"], pos:"v./prep.", meaning:"ở, tại"},
+  {word:"早上", pinyin:["zǎo", "shang"], pos:"n.", meaning:"buổi sáng sớm"},
+  {word:"怎么", pinyin:["zěn", "me"], pos:"pron.", meaning:"như thế nào"},
+  {word:"怎么样", pinyin:["zěn", "me", "yàng"], pos:"pron.", meaning:"như thế nào"},
+  {word:"这", pinyin:["zhè"], pos:"pron.", meaning:"này"},
+  {word:"中国", pinyin:["Zhōng", "guó"], pos:"n.", meaning:"Trung Quốc"},
+  {word:"中午", pinyin:["zhōng", "wǔ"], pos:"n.", meaning:"buổi trưa"},
+  {word:"住", pinyin:["zhù"], pos:"v.", meaning:"ở, sống"},
+  {word:"桌子", pinyin:["zhuō", "zi"], pos:"n.", meaning:"cái bàn"},
+  {word:"字", pinyin:["zì"], pos:"n.", meaning:"chữ"},
+  {word:"昨天", pinyin:["zuó", "tiān"], pos:"n.", meaning:"hôm qua"},
+  {word:"做", pinyin:["zuò"], pos:"v.", meaning:"làm"},
+  {word:"坐", pinyin:["zuò"], pos:"v.", meaning:"ngồi"}
+];
+
+function rubyHTML(word, pinyinArr){
+  const chars = Array.from(word);
+  return chars.map((ch,i) => `<ruby>${ch}<rt>${pinyinArr[i] || ''}</rt></ruby>`).join('');
+}
+function plainPinyin(pinyinArr){ return pinyinArr.join(' '); }
+
+let cards = [];
+let order = [];
+let current = 0;
+let flipped = false;
+let filterUnknownOnly = false;
+let searchTerm = '';
+
+const $ = (id) => document.getElementById(id);
+const statusLine = $('statusLine');
+
+function setStatus(msg, timeout=2200){
+  statusLine.textContent = msg;
+  if(timeout){ setTimeout(()=>{ if(statusLine.textContent===msg) statusLine.textContent=''; }, timeout); }
+}
+
+async function loadCards(){
+  try{
+    const raw = localStorage.getItem('hsk1cards_v2');
+    cards = raw ? JSON.parse(raw) : [];
+  }catch(e){ cards = []; }
+  if(!cards || cards.length === 0){
+    cards = SEED.map((c,i)=>({id:'c'+Date.now()+i, status:'new', ...c}));
+    await saveCards();
+  }
+  applyFilter();
+  render();
+}
+
+async function saveCards(){
+  try{ localStorage.setItem('hsk1cards_v2', JSON.stringify(cards)); }
+  catch(e){ setStatus('Loi khi luu du lieu.'); }
+}
+
+function applyFilter(){
+  let idxs = cards.map((_,i)=>i);
+  if(filterUnknownOnly) idxs = idxs.filter(i => cards[i].status !== 'known');
+  if(searchTerm){
+    const t = searchTerm.toLowerCase();
+    idxs = idxs.filter(i => {
+      const c = cards[i];
+      return c.word.includes(searchTerm) || plainPinyin(c.pinyin).toLowerCase().includes(t) || (c.meaning||'').toLowerCase().includes(t);
+    });
+  }
+  order = idxs;
+  current = 0;
+}
+
+function render(){
+  const total = cards.length;
+  const known = cards.filter(c=>c.status==='known').length;
+  $('statTotal').textContent = total;
+  $('statKnown').textContent = known;
+  $('statNew').textContent = total - known;
+
+  document.getElementById('cardArea').style.display = order.length ? '' : 'none';
+  if(order.length === 0){
+    if(!document.getElementById('emptyMsg')){
+      const p = document.createElement('div'); p.className='empty'; p.id='emptyMsg';
+      p.textContent = 'Khong co the nao khop.';
+      $('cardArea').after(p);
+    }
+    renderDeck();
+    return;
+  }
+  const existingEmpty = document.getElementById('emptyMsg');
+  if(existingEmpty) existingEmpty.remove();
+
+  if(current >= order.length) current = 0;
+  const idx = order[current];
+  const c = cards[idx];
+  const tagNum = String(idx+1).padStart(3,'0');
+
+  $('tagIdFront').textContent = 'HSK-'+tagNum;
+  $('tagIdBack').textContent = 'HSK-'+tagNum;
+  $('hanziFront').innerHTML = rubyHTML(c.word, c.pinyin);
+  $('hanziBack').innerHTML = rubyHTML(c.word, c.pinyin);
+  $('posFront').textContent = c.pos || '';
+  $('meaningBack').textContent = c.meaning || '';
+
+  const known2 = c.status === 'known';
+  [$('stampFront'), $('stampBack')].forEach(el=>{
+    el.textContent = known2 ? 'Da thuoc' : 'Can on';
+    el.classList.toggle('known', known2);
+    el.classList.toggle('new', !known2);
+  });
+
+  $('tag').classList.toggle('flipped', flipped);
+  renderDeck();
+}
+
+function renderDeck(){
+  const grid = $('deckGrid');
+  grid.innerHTML = '';
+  order.forEach((i) => {
+    const c = cards[i];
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (c.status==='known' ? ' done':'') + (order[current]===i ? ' active':'');
+    const dot = document.createElement('span'); dot.className='dot';
+    const label = document.createElement('span'); label.textContent = c.word + ' (' + plainPinyin(c.pinyin) + ')';
+    const del = document.createElement('span'); del.className='del'; del.textContent='x';
+    del.title = 'Xoa the';
+    del.addEventListener('click', (e)=>{ e.stopPropagation(); removeCard(i); });
+    chip.appendChild(dot); chip.appendChild(label); chip.appendChild(del);
+    chip.addEventListener('click', ()=>{
+      const pos = order.indexOf(i);
+      current = pos >= 0 ? pos : 0;
+      flipped = false;
+      render();
+    });
+    grid.appendChild(chip);
+  });
+}
+
+let zhVoice = null;
+function pickZhVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const voices = window.speechSynthesis.getVoices();
+  zhVoice = voices.find(v=>v.lang==='zh-CN') || voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh')) || null;
+}
+if('speechSynthesis' in window){ pickZhVoice(); window.speechSynthesis.onvoiceschanged = pickZhVoice; }
+
+function speak(text){
+  if(!('speechSynthesis' in window)){ setStatus('Trinh duyet khong ho tro doc.'); return; }
+  if(!zhVoice) pickZhVoice();
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-CN';
+  if(zhVoice) u.voice = zhVoice; else setStatus('May chua co giong doc tieng Trung.');
+  u.rate = $('slowToggle').checked ? 0.6 : 0.9;
+  window.speechSynthesis.speak(u);
+}
+function speakCurrent(){ const c = cards[order[current]]; if(c) speak(c.word); }
+$('speakWordBtn').addEventListener('click', speakCurrent);
+$('speakWordBtn2').addEventListener('click', speakCurrent);
+
+$('tag').addEventListener('click', (e)=>{ if(e.target.closest('.speak-btn')) return; flipped=!flipped; render(); });
+$('flipBtn').addEventListener('click', ()=>{ flipped=!flipped; render(); });
+$('nextBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current+1)%order.length; flipped=false; render(); });
+$('prevBtn').addEventListener('click', ()=>{ if(!order.length) return; current=(current-1+order.length)%order.length; flipped=false; render(); });
+$('shuffleBtn').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  current=0; flipped=false; render(); setStatus('Da xao bo the.');
+});
+$('reviewNewBtn').addEventListener('click', ()=>{
+  filterUnknownOnly = !filterUnknownOnly; applyFilter(); render();
+  setStatus(filterUnknownOnly ? 'Dang chi hien thi tu can on.' : 'Hien thi tat ca tu.');
+});
+$('searchInput').addEventListener('input', (e)=>{ searchTerm=e.target.value.trim(); applyFilter(); render(); });
+$('knownBtn').addEventListener('click', async ()=>{ const idx=order[current]; if(idx===undefined) return; cards[idx].status='known'; await saveCards(); render(); });
+$('newBtn').addEventListener('click', async ()=>{ const idx=order[current]; if(idx===undefined) return; cards[idx].status='new'; await saveCards(); render(); });
+
+async function removeCard(idx){ cards.splice(idx,1); applyFilter(); await saveCards(); render(); }
+
+$('addBtn').addEventListener('click', async ()=>{
+  const word = $('inWord').value.trim();
+  const pinyinStr = $('inPinyin').value.trim();
+  const pos = $('inPos').value;
+  const meaning = $('inMeaning').value.trim();
+  if(!word || !meaning || !pinyinStr){ setStatus('Vui long nhap du han tu, pinyin va nghia.'); return; }
+  const pinyin = pinyinStr.split(/\s+/);
+  cards.push({id:'c'+Date.now(), word, pinyin, pos, meaning, status:'new'});
+  applyFilter(); current = order.length - 1; flipped = false;
+  await saveCards(); render();
+  $('inWord').value=''; $('inPinyin').value=''; $('inPos').value=''; $('inMeaning').value='';
+  setStatus('Da them the "'+word+'".');
+});
+
+loadCards();
+</script>
+</body>
+</html>
